@@ -17,83 +17,83 @@ interface Message {
 const employees = [{
   name: 'Aaron',
   role: 'Product Manager',
-  profilePic: "/images/profiles/aaron.jpg",
+  profilePic: "/aaron.jpg",
   notes: 'Always organized, keeps the team on track'
 }, {
   name: 'Amy',
   role: 'Engineer',
-  profilePic: "/images/profiles/amy.jpg",
+  profilePic: "/amy.jpg",
   notes: 'Brilliant coder, solves complex problems'
 }, {
   name: 'Julien',
   role: 'Cold Caller',
-  profilePic: "/images/profiles/julien.jpg",
+  profilePic: "/julien.jpg",
   notes: 'Amazing at building relationships with prospects',
   onNaughtyList: true // Julien is on the naughty list!
 }, {
   name: 'Malini',
   role: 'Growth',
-  profilePic: "/images/profiles/malini.jpg",
+  profilePic: "/malini.jpg",
   notes: 'Creative marketing strategist'
 }, {
   name: 'Joki',
   role: 'Account Executive',
-  profilePic: "/images/profiles/joki.jpg",
+  profilePic: "/joki.jpg",
   notes: 'Great at closing deals'
 }, {
   name: 'Arun',
   role: 'CTO',
-  profilePic: "/images/profiles/arun.jpg",
+  profilePic: "/arun.jpg",
   notes: 'Technical visionary'
 }, {
   name: 'Siddarth',
   role: 'Engineer',
-  profilePic: "/images/profiles/siddarth.jpg",
+  profilePic: "/siddarth.jpg",
   notes: 'Backend specialist'
 }, {
   name: 'Maria',
   role: 'Technical Project & QA Manager',
-  profilePic: "/images/profiles/maria.jpg",
+  profilePic: "/maria.jpg",
   notes: 'Keeps projects on track and bug-free'
 }, {
   name: 'Joshua',
   role: 'Engineer',
-  profilePic: "/images/profiles/joshua.jpg",
+  profilePic: "/joshua.jpg",
   notes: 'Frontend expert'
 }, {
   name: 'Stephen',
   role: 'Customer Success',
-  profilePic: "/images/profiles/stephen.jpg",
+  profilePic: "/stephen.jpg",
   notes: 'Makes customers happy'
 }, {
   name: 'Sergey',
   role: 'Engineer',
-  profilePic: "/images/profiles/sergey.jpg",
+  profilePic: "/sergey.jpg",
   notes: 'Algorithm wizard'
 }, {
   name: 'Ivan',
   role: 'Engineer',
-  profilePic: "/images/profiles/ivan.jpg",
+  profilePic: "/ivan.jpg",
   notes: 'Infrastructure specialist'
 }, {
   name: 'Jack',
   role: 'Engineer',
-  profilePic: "/images/profiles/jack.jpg",
+  profilePic: "/jack.jpg",
   notes: 'Full-stack developer'
 }, {
   name: 'Anand',
   role: 'Engineer',
-  profilePic: "/images/profiles/anand.jpg",
+  profilePic: "/anand.jpg",
   notes: 'Data specialist'
 }, {
   name: 'Kunal',
   role: 'CEO',
-  profilePic: "/images/profiles/kunal.jpg",
+  profilePic: "/kunal.jpg",
   notes: 'Visionary leader'
 }, {
   name: 'Ian',
   role: 'Growth',
-  profilePic: "/images/profiles/ian.jpg",
+  profilePic: "/ian.jpg",
   notes: 'Analytics expert'
 }];
 // The wishlist questions to ask
@@ -520,7 +520,14 @@ export function WishlistChat() {
               <span className="mr-2 text-sm font-medium">
                 {currentUser.name} {currentUser.onNaughtyList ? '😈' : '😇'}
               </span>
-              {currentUser.profilePic && <img src={currentUser.profilePic} alt={currentUser.name} className={`w-7 h-7 rounded-full object-cover border-2 ${currentUser.onNaughtyList ? 'border-red-300/50' : 'border-white/30'}`} />}
+              {currentUser.profilePic && <img 
+                src={currentUser.profilePic} 
+                alt={currentUser.name} 
+                className={`w-7 h-7 rounded-full object-cover border-2 ${currentUser.onNaughtyList ? 'border-red-300/50' : 'border-white/30'}`}
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />}
             </div>}
         </div>
         {/* Chat area */}
