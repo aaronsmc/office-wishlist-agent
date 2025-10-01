@@ -6,7 +6,7 @@ export class ApiService {
 
   constructor() {
     // Use environment variable or default to Vercel API routes
-    this.baseUrl = process.env.REACT_APP_API_URL || '/api';
+    this.baseUrl = import.meta.env.VITE_API_URL || '/api';
   }
 
   // Get all submissions from the server
@@ -27,8 +27,9 @@ export class ApiService {
       }
       return await response.json();
     } catch (error) {
-      console.error('Error fetching submissions:', error);
-      return [];
+      console.error('Error fetching submissions from API, falling back to localStorage:', error);
+      // Fallback to localStorage when API is not available
+      return this.getAllSubmissionsFromLocalStorage();
     }
   }
 
@@ -57,8 +58,58 @@ export class ApiService {
       const result = await response.json();
       return result.success || false;
     } catch (error) {
-      console.error('Error saving submission:', error);
+      console.error('Error saving submission to API, falling back to localStorage:', error);
+      // Fallback to localStorage when API is not available
+      return this.saveToLocalStorage(submission);
+    }
+  }
+
+  // Fallback method to save to localStorage
+  private saveToLocalStorage(submission: {
+    userName: string;
+    mustHaveItems: string;
+    niceToHaveItems: string;
+    preposterousWishes: string;
+    snackPreferences: string[];
+    additionalComments: string;
+  }): boolean {
+    try {
+      const id = `submission_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const submissionWithId = {
+        id,
+        timestamp: Date.now(),
+        ...submission
+      };
+
+      const existingSubmissions = this.getAllSubmissionsFromLocalStorage();
+      existingSubmissions.push(submissionWithId);
+      localStorage.setItem('wishlist_submissions', JSON.stringify(existingSubmissions));
+      
+      console.log('Saved to localStorage:', submissionWithId);
+      return true;
+    } catch (error) {
+      console.error('Error saving to localStorage:', error);
       return false;
+    }
+  }
+
+  // Get all submissions from localStorage
+  getAllSubmissionsFromLocalStorage(): Array<{
+    id: string;
+    timestamp: number;
+    userName: string;
+    mustHaveItems: string;
+    niceToHaveItems: string;
+    preposterousWishes: string;
+    snackPreferences: string[];
+    additionalComments: string;
+  }> {
+    try {
+      const submissionsJson = localStorage.getItem('wishlist_submissions');
+      return submissionsJson ? JSON.parse(submissionsJson) : [];
+    } catch (error) {
+      console.error('Error retrieving submissions from localStorage:', error);
+      return [];
     }
   }
 
