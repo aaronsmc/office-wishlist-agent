@@ -17,83 +17,83 @@ interface Message {
 const employees = [{
   name: 'Aaron',
   role: 'Product Manager',
-  profilePic: "/aaron.jpg",
+  profilePic: "/images/profiles/aaron.jpg",
   notes: 'Always organized, keeps the team on track'
 }, {
   name: 'Amy',
   role: 'Engineer',
-  profilePic: "/amy.jpg",
+  profilePic: "/images/profiles/amy.jpg",
   notes: 'Brilliant coder, solves complex problems'
 }, {
   name: 'Julien',
   role: 'Cold Caller',
-  profilePic: "/julien.jpg",
+  profilePic: "/images/profiles/julien.jpg",
   notes: 'Amazing at building relationships with prospects',
   onNaughtyList: true // Julien is on the naughty list!
 }, {
   name: 'Malini',
   role: 'Growth',
-  profilePic: "/malini.jpg",
+  profilePic: "/images/profiles/malini.jpg",
   notes: 'Creative marketing strategist'
 }, {
   name: 'Joki',
   role: 'Account Executive',
-  profilePic: "/joki.jpg",
+  profilePic: "/images/profiles/joki.jpg",
   notes: 'Great at closing deals'
 }, {
   name: 'Arun',
   role: 'CTO',
-  profilePic: "/arun.jpg",
+  profilePic: "/images/profiles/arun.jpg",
   notes: 'Technical visionary'
 }, {
   name: 'Siddarth',
   role: 'Engineer',
-  profilePic: "/siddarth.jpg",
+  profilePic: "/images/profiles/siddarth.jpg",
   notes: 'Backend specialist'
 }, {
   name: 'Maria',
   role: 'Technical Project & QA Manager',
-  profilePic: "/maria.jpg",
+  profilePic: "/images/profiles/maria.jpg",
   notes: 'Keeps projects on track and bug-free'
 }, {
   name: 'Joshua',
   role: 'Engineer',
-  profilePic: "/joshua.jpg",
+  profilePic: "/images/profiles/joshua.jpg",
   notes: 'Frontend expert'
 }, {
   name: 'Stephen',
   role: 'Customer Success',
-  profilePic: "/stephen.jpg",
+  profilePic: "/images/profiles/stephen.jpg",
   notes: 'Makes customers happy'
 }, {
   name: 'Sergey',
   role: 'Engineer',
-  profilePic: "/sergey.jpg",
+  profilePic: "/images/profiles/sergey.jpg",
   notes: 'Algorithm wizard'
 }, {
   name: 'Ivan',
   role: 'Engineer',
-  profilePic: "/ivan.jpg",
+  profilePic: "/images/profiles/ivan.jpg",
   notes: 'Infrastructure specialist'
 }, {
   name: 'Jack',
   role: 'Engineer',
-  profilePic: "/jack.jpg",
+  profilePic: "/images/profiles/jack.jpg",
   notes: 'Full-stack developer'
 }, {
   name: 'Anand',
   role: 'Engineer',
-  profilePic: "/anand.jpg",
+  profilePic: "/images/profiles/anand.jpg",
   notes: 'Data specialist'
 }, {
   name: 'Kunal',
   role: 'CEO',
-  profilePic: "/kunal.jpg",
+  profilePic: "/images/profiles/kunal.jpg",
   notes: 'Visionary leader'
 }, {
   name: 'Ian',
   role: 'Growth',
-  profilePic: "/ian.jpg",
+  profilePic: "/images/profiles/ian.jpg",
   notes: 'Analytics expert'
 }];
 // The wishlist questions to ask
