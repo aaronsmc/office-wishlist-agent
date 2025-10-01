@@ -13,87 +13,94 @@ interface Message {
   type: MessageType;
   text: string;
 }
+// Helper function to get the correct image path
+const getImagePath = (filename: string) => {
+  // Try different path formats for better compatibility
+  const baseUrl = window.location.origin;
+  return `${baseUrl}/${filename}`;
+};
+
 // Employee data with roles and profile pictures (when available)
 const employees = [{
   name: 'Aaron',
   role: 'Product Manager',
-  profilePic: "/aaron.jpg",
+  profilePic: getImagePath("aaron.jpg"),
   notes: 'Always organized, keeps the team on track'
 }, {
   name: 'Amy',
   role: 'Engineer',
-  profilePic: "/amy.jpg",
+  profilePic: getImagePath("amy.jpg"),
   notes: 'Brilliant coder, solves complex problems'
 }, {
   name: 'Julien',
   role: 'Cold Caller',
-  profilePic: "/julien.jpg",
+  profilePic: getImagePath("julien.jpg"),
   notes: 'Amazing at building relationships with prospects',
   onNaughtyList: true // Julien is on the naughty list!
 }, {
   name: 'Malini',
   role: 'Growth',
-  profilePic: "/malini.jpg",
+  profilePic: getImagePath("malini.jpg"),
   notes: 'Creative marketing strategist'
 }, {
   name: 'Joki',
   role: 'Account Executive',
-  profilePic: "/joki.jpg",
+  profilePic: getImagePath("joki.jpg"),
   notes: 'Great at closing deals'
 }, {
   name: 'Arun',
   role: 'CTO',
-  profilePic: "/arun.jpg",
+  profilePic: getImagePath("arun.jpg"),
   notes: 'Technical visionary'
 }, {
   name: 'Siddarth',
   role: 'Engineer',
-  profilePic: "/siddarth.jpg",
+  profilePic: getImagePath("siddarth.jpg"),
   notes: 'Backend specialist'
 }, {
   name: 'Maria',
   role: 'Technical Project & QA Manager',
-  profilePic: "/maria.jpg",
+  profilePic: getImagePath("maria.jpg"),
   notes: 'Keeps projects on track and bug-free'
 }, {
   name: 'Joshua',
   role: 'Engineer',
-  profilePic: "/joshua.jpg",
+  profilePic: getImagePath("joshua.jpg"),
   notes: 'Frontend expert'
 }, {
   name: 'Stephen',
   role: 'Customer Success',
-  profilePic: "/stephen.jpg",
+  profilePic: getImagePath("stephen.jpg"),
   notes: 'Makes customers happy'
 }, {
   name: 'Sergey',
   role: 'Engineer',
-  profilePic: "/sergey.jpg",
+  profilePic: getImagePath("sergey.jpg"),
   notes: 'Algorithm wizard'
 }, {
   name: 'Ivan',
   role: 'Engineer',
-  profilePic: "/ivan.jpg",
+  profilePic: getImagePath("ivan.jpg"),
   notes: 'Infrastructure specialist'
 }, {
   name: 'Jack',
   role: 'Engineer',
-  profilePic: "/jack.jpg",
+  profilePic: getImagePath("jack.jpg"),
   notes: 'Full-stack developer'
 }, {
   name: 'Anand',
   role: 'Engineer',
-  profilePic: "/anand.jpg",
+  profilePic: getImagePath("anand.jpg"),
   notes: 'Data specialist'
 }, {
   name: 'Kunal',
   role: 'CEO',
-  profilePic: "/kunal.jpg",
+  profilePic: getImagePath("kunal.jpg"),
   notes: 'Visionary leader'
 }, {
   name: 'Ian',
   role: 'Growth',
-  profilePic: "/ian.jpg",
+  profilePic: getImagePath("ian.jpg"),
   notes: 'Analytics expert'
 }];
 // The wishlist questions to ask
