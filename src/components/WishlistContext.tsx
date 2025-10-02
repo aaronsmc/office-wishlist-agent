@@ -49,10 +49,15 @@ export const WishlistProvider: React.FC<{
   });
   // Update a specific field in the state
   const updateAnswer = (field: keyof WishlistState, value: string | string[]) => {
-    setWishlistState(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    console.log('updateAnswer called with field:', field, 'value:', value);
+    setWishlistState(prev => {
+      const newState = {
+        ...prev,
+        [field]: value
+      };
+      console.log('new wishlistState:', newState);
+      return newState;
+    });
   };
   // Move to the next question
   const nextQuestion = () => {
@@ -64,6 +69,7 @@ export const WishlistProvider: React.FC<{
   // Submit the form and save to Supabase
   const submitForm = async (): Promise<boolean> => {
     try {
+      console.log('submitForm called with wishlistState:', wishlistState);
       // Create submission object for Supabase
       const submission = {
         user_name: wishlistState.userName,
@@ -73,6 +79,7 @@ export const WishlistProvider: React.FC<{
         dream_snacks: wishlistState.dreamSnacks,
         additional_comments: wishlistState.additionalComments
       };
+      console.log('submission object:', submission);
       
       // Save to Supabase
       const result = await supabaseWishlistService.saveSubmission(submission);
