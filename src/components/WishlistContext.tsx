@@ -74,12 +74,12 @@ export const WishlistProvider: React.FC<{
         additionalComments: wishlistState.additionalComments
       };
       
-      // Save to Vercel KV
+      // Save to Vercel Blob
       const success = await vercelStorageService.saveSubmission(submission);
       if (success) {
-        console.log('Form submitted successfully to Vercel KV:', submission);
+        console.log('Form submitted successfully to Vercel Blob:', submission);
       } else {
-        console.error('Failed to submit form to Vercel KV');
+        console.error('Failed to submit form to Vercel Blob');
       }
       return success;
     } catch (error) {

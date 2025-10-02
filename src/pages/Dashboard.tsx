@@ -21,11 +21,11 @@ export function Dashboard() {
   useEffect(() => {
     loadSubmissions();
   }, []);
-  // Function to load submissions from Vercel KV
+  // Function to load submissions from Vercel Blob
   const loadSubmissions = async () => {
     setLoading(true);
     try {
-      console.log('Loading submissions from Vercel KV...');
+      console.log('Loading submissions from Vercel Blob...');
       const data = await vercelStorageService.getAllSubmissions();
       console.log('Retrieved submissions:', data);
       // Sort by timestamp (newest first)

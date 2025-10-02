@@ -1,25 +1,40 @@
-// Vercel serverless function for handling submissions with KV storage
-const { kv } = require('@vercel/kv');
+// Vercel serverless function for handling submissions with Blob storage
+const { put, del, list } = require('@vercel/blob');
 
-// Key for storing submissions in Vercel KV
-const SUBMISSIONS_KEY = 'wishlist_submissions';
+// Blob filename for storing submissions
+const BLOB_FILENAME = 'wishlist-submissions.json';
 
-// Helper functions for Vercel KV
+// Helper functions for Vercel Blob
 const readSubmissions = async () => {
   try {
-    const submissions = await kv.get(SUBMISSIONS_KEY);
-    return submissions || [];
+    // Try to get the blob
+    const blobs = await list({ prefix: BLOB_FILENAME });
+    if (blobs.blobs.length === 0) {
+      return [];
+    }
+    
+    const response = await fetch(blobs.blobs[0].url);
+    if (!response.ok) {
+      return [];
+    }
+    
+    const data = await response.json();
+    return data || [];
   } catch (error) {
-    console.error('Error reading from KV:', error);
+    console.error('Error reading from Blob:', error);
     return [];
   }
 };
 
 const writeSubmissions = async (submissions) => {
   try {
-    await kv.set(SUBMISSIONS_KEY, submissions);
+    const blob = await put(BLOB_FILENAME, JSON.stringify(submissions, null, 2), {
+      access: 'public',
+      contentType: 'application/json'
+    });
+    console.log('Saved to Blob:', blob.url);
   } catch (error) {
-    console.error('Error writing to KV:', error);
+    console.error('Error writing to Blob:', error);
     throw error;
   }
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-// Vercel KV (Redis) service for reliable cross-device data storage
+// Vercel Blob service for reliable cross-device data storage
 export class VercelStorageService {
   private baseUrl: string;
 
@@ -8,7 +8,7 @@ export class VercelStorageService {
     this.baseUrl = '/api';
   }
 
-  // Get all submissions from Vercel KV
+  // Get all submissions from Vercel Blob
   async getAllSubmissions(): Promise<Array<{
     id: string;
     timestamp: number;
@@ -29,13 +29,13 @@ export class VercelStorageService {
       const data = await response.json();
       return data || [];
     } catch (error) {
-      console.error('Error fetching from Vercel KV:', error);
+      console.error('Error fetching from Vercel Blob:', error);
       // Fallback to localStorage
       return this.getFromLocalStorage();
     }
   }
 
-  // Save a new submission to Vercel KV
+  // Save a new submission to Vercel Blob
   async saveSubmission(submission: {
     userName: string;
     mustHaveItems: string;
@@ -57,10 +57,10 @@ export class VercelStorageService {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      console.log('Successfully saved to Vercel KV');
+      console.log('Successfully saved to Vercel Blob');
       return true;
     } catch (error) {
-      console.error('Error saving to Vercel KV:', error);
+      console.error('Error saving to Vercel Blob:', error);
       // Fallback to localStorage
       return this.saveToLocalStorage(submission);
     }
@@ -79,7 +79,7 @@ export class VercelStorageService {
 
       return true;
     } catch (error) {
-      console.error('Error deleting from Vercel KV:', error);
+      console.error('Error deleting from Vercel Blob:', error);
       // Fallback to localStorage
       return this.deleteFromLocalStorage(id);
     }
@@ -98,7 +98,7 @@ export class VercelStorageService {
 
       return true;
     } catch (error) {
-      console.error('Error clearing Vercel KV:', error);
+      console.error('Error clearing Vercel Blob:', error);
       // Fallback to localStorage
       return this.clearLocalStorage();
     }
