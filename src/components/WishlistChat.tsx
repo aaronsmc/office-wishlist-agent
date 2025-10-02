@@ -122,13 +122,13 @@ const wishlistQuestions = [
     "What crazy office ideas do you have? No idea is too outlandish! 🤪",
     "What would make the office absolutely legendary? Think outside the box! 💡"
   ],
-  // Snack questions
+  // Dream snacks questions
   [
-    "Tell us your dream snack and drink preferences for the office kitchen!",
-    "What snacks and drinks would make the office kitchen legendary?",
-    "What would you want to see in the office snack bar?",
-    "What treats would make you never want to leave the office?",
-    "What snacks would make the office the envy of all other companies?"
+    "What are your dream snacks for the office? 🍿",
+    "What snacks would make the office kitchen absolutely amazing?",
+    "What dream snacks would you love to have available?",
+    "What treats would make the office the best place to work?",
+    "What snacks would make you never want to leave the office?"
   ],
 ];
 // Fun reactions to user responses
@@ -304,7 +304,7 @@ export function WishlistChat() {
     mustHaveItems: '',
     niceToHaveItems: '',
     preposterousWishes: '',
-    snackPreferences: '',
+    dreamSnacks: '',
     additionalComments: ''
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -409,8 +409,8 @@ export function WishlistChat() {
         newFormData.preposterousWishes = response;
         break;
       case 4:
-        // Snack preferences
-        newFormData.snackPreferences = response;
+        // Dream snacks
+        newFormData.dreamSnacks = response;
         break;
     }
     setFormData(newFormData);
@@ -428,7 +428,7 @@ export function WishlistChat() {
         fieldName = 'preposterousWishes';
         break;
       case 4:
-        fieldName = 'snackPreferences';
+        fieldName = 'dreamSnacks';
         break;
       default:
         fieldName = 'additionalComments';

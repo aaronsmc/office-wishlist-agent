@@ -7,7 +7,7 @@ export interface WishlistSubmission {
   must_have_items: string;
   nice_to_have_items: string;
   preposterous_wishes: string;
-  snack_preferences: string;
+  dream_snacks: string;
   additional_comments: string;
 }
 
@@ -16,7 +16,7 @@ export interface WishlistSubmissionInput {
   must_have_items: string;
   nice_to_have_items: string;
   preposterous_wishes: string;
-  snack_preferences: string;
+  dream_snacks: string;
   additional_comments: string;
 }
 

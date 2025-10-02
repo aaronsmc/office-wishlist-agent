@@ -164,10 +164,10 @@ export function Dashboard() {
                     </div>
                     <div className="bg-green-50 p-3 rounded-md border border-green-200">
                       <h4 className="text-sm font-medium text-green-800">
-                        Snack Preferences
+                        Dream Snacks
                       </h4>
                       <p className="mt-1 whitespace-pre-line text-green-900">
-                        {selectedSubmission.snack_preferences || 'None specified'}
+                        {selectedSubmission.dream_snacks || 'None specified'}
                       </p>
                     </div>
                     {selectedSubmission.additional_comments && <div className="bg-gray-50 p-3 rounded-md border border-gray-200">

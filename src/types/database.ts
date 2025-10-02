@@ -9,7 +9,7 @@ export interface Database {
           must_have_items: string
           nice_to_have_items: string
           preposterous_wishes: string
-          snack_preferences: string
+          dream_snacks: string
           additional_comments: string
         }
         Insert: {
@@ -19,7 +19,7 @@ export interface Database {
           must_have_items: string
           nice_to_have_items: string
           preposterous_wishes: string
-          snack_preferences: string
+          dream_snacks: string
           additional_comments: string
         }
         Update: {
@@ -29,7 +29,7 @@ export interface Database {
           must_have_items?: string
           nice_to_have_items?: string
           preposterous_wishes?: string
-          snack_preferences?: string[]
+          dream_snacks?: string
           additional_comments?: string
         }
       }
