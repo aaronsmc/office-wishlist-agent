@@ -390,7 +390,7 @@ export function WishlistChat() {
     }
   };
   // Save response to form data
-  const saveResponse = (response: string) => {
+  const saveResponse = async (response: string) => {
     console.log('saveResponse called with currentStep:', currentStep, 'response:', response);
     const newFormData = {
       ...formData
@@ -440,7 +440,8 @@ export function WishlistChat() {
     }
     
     console.log('Calling updateAnswer with fieldName:', fieldName, 'value:', newFormData[fieldName]);
-    updateAnswer(fieldName, newFormData[fieldName]);
+    await updateAnswer(fieldName, newFormData[fieldName]);
+    console.log('State update completed');
   };
   // Submit the form to storage
   const saveToStorage = async () => {
@@ -453,7 +454,7 @@ export function WishlistChat() {
     }
   };
   // Handle form submission
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!input.trim()) return;
     // Add user message
     setMessages(prev => [...prev, {
@@ -580,7 +581,7 @@ export function WishlistChat() {
     // If we're in the wishlist questions (steps 1-4)
     if (currentStep >= 1 && currentStep <= 4) {
       // Save the response
-      saveResponse(userInput);
+      await saveResponse(userInput);
       // Add a reactionary response to the user's answer
       const reaction = getReactionToAnswer(userInput, currentStep);
       addBotMessage(reaction);

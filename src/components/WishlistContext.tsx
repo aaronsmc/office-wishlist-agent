@@ -50,13 +50,17 @@ export const WishlistProvider: React.FC<{
   // Update a specific field in the state
   const updateAnswer = (field: keyof WishlistState, value: string | string[]) => {
     console.log('updateAnswer called with field:', field, 'value:', value);
-    setWishlistState(prev => {
-      const newState = {
-        ...prev,
-        [field]: value
-      };
-      console.log('new wishlistState:', newState);
-      return newState;
+    return new Promise<void>((resolve) => {
+      setWishlistState(prev => {
+        const newState = {
+          ...prev,
+          [field]: value
+        };
+        console.log('new wishlistState:', newState);
+        // Resolve after state update
+        setTimeout(() => resolve(), 0);
+        return newState;
+      });
     });
   };
   // Move to the next question
