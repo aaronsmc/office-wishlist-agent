@@ -130,14 +130,6 @@ const wishlistQuestions = [
     "What treats would make you never want to leave the office?",
     "What snacks would make the office the envy of all other companies?"
   ],
-  // Additional comments questions
-  [
-    "Do you have anything else you would like to share?",
-    "Any final thoughts or wild ideas for the office?",
-    "What else is on your mind about the new office?",
-    "Any other brilliant ideas you want to share?",
-    "What else would make this office absolutely perfect?"
-  ]
 ];
 // Fun reactions to user responses
 const getReactionToMustHaves = (response: string) => {
@@ -262,7 +254,7 @@ export function WishlistChat() {
   } = useWishlist();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
-  const [currentStep, setCurrentStep] = useState(0); // 0: Name, 1-5: Wishlist questions, 6: Complete
+  const [currentStep, setCurrentStep] = useState(0); // 0: Name, 1-4: Wishlist questions, 5: Complete
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
@@ -291,11 +283,11 @@ export function WishlistChat() {
   // Initialize chat
   useEffect(() => {
     const introMessages = [
-      "Hey there! 👋 I'm Arya, your friendly office wishlist collector. What's your name so I can check if you're on the nice or naughty list? Only those on the nice list get to add something to the office wishlist! 😉",
-      "Hello! 🎉 I'm Arya, the office wishlist fairy! Tell me your name and I'll check if you're on the nice list. Nice list members get to add their dream office items! ✨",
-      "Hi there! 👋 I'm Arya, your office wishlist genie! What's your name? I need to verify you're on the nice list before we can add your wishes to the office dream list! 🧞‍♀️",
-      "Greetings! 🎊 I'm Arya, the keeper of the office wishlist! Share your name so I can confirm you're on the nice list. Only nice list members can contribute to our office wishlist! 📝",
-      "Hey! 👋 I'm Arya, your office wishlist curator! What's your name? I'll check if you're on the nice list - only nice people get to add items to our office wishlist! 😊"
+      "Hey there! 👋 I'm Mavi, your friendly office wishlist collector. What's your name so I can check if you're on the nice or naughty list? Only those on the nice list get to add something to the office wishlist! 😉",
+      "Hello! 🎉 I'm Mavi, the office wishlist fairy! Tell me your name and I'll check if you're on the nice list. Nice list members get to add their dream office items! ✨",
+      "Hi there! 👋 I'm Mavi, your office wishlist genie! What's your name? I need to verify you're on the nice list before we can add your wishes to the office dream list! 🧞‍♀️",
+      "Greetings! 🎊 I'm Mavi, the keeper of the office wishlist! Share your name so I can confirm you're on the nice list. Only nice list members can contribute to our office wishlist! 📝",
+      "Hey! 👋 I'm Mavi, your office wishlist curator! What's your name? I'll check if you're on the nice list - only nice people get to add items to our office wishlist! 😊"
     ];
     const randomIntro = introMessages[Math.floor(Math.random() * introMessages.length)];
     setMessages([{
@@ -345,7 +337,7 @@ export function WishlistChat() {
   // Ask next question
   const askNextQuestion = () => {
     // Skip step 0 (name) since we already handled that
-    if (currentStep >= 1 && currentStep <= 5) {
+    if (currentStep >= 1 && currentStep <= 4) {
       const questionIndex = currentStep - 1;
       if (questionIndex < wishlistQuestions.length) {
         // Get random variation of the question
@@ -378,10 +370,6 @@ export function WishlistChat() {
         // Snack preferences
         // Split by commas and clean up
         newFormData.snackPreferences = response.split(',').map(item => item.trim()).filter(item => item.length > 0);
-        break;
-      case 5:
-        // Additional comments
-        newFormData.additionalComments = response;
         break;
     }
     setFormData(newFormData);
@@ -426,7 +414,10 @@ export function WishlistChat() {
     // If we're at the name step
     if (currentStep === 0) {
       // Check if the input matches any employee name (case insensitive)
-      const matchedEmployee = employees.find(emp => emp.name.toLowerCase() === userInput.toLowerCase());
+      const matchedEmployee = employees.find(emp => 
+        emp.name.toLowerCase() === userInput.toLowerCase() || 
+        (emp.name === 'Siddarth' && userInput.toLowerCase() === 'sid')
+      );
       if (matchedEmployee) {
         // Found a known employee
         const isOnNaughtyList = matchedEmployee.name.toLowerCase() === 'julien';
@@ -455,7 +446,7 @@ export function WishlistChat() {
             setMessages(prev => [...prev, {
               id: uuidv4(),
               type: 'bot',
-              text: "But go ahead, try to tell me what you want... I'll just respond with WOMP WOMP. 😈"
+              text: "But go ahead, try to tell me what you want..."
             }]);
           }, 2000);
           return;
@@ -520,7 +511,7 @@ export function WishlistChat() {
       return;
     }
     // If we're in the wishlist questions (steps 1-5)
-    if (currentStep >= 1 && currentStep <= 5) {
+    if (currentStep >= 1 && currentStep <= 4) {
       // Save the response
       saveResponse(userInput);
       // Add a reactionary response to the user's answer
@@ -529,7 +520,7 @@ export function WishlistChat() {
       // Move to the next step
       setCurrentStep(prev => prev + 1);
       // If we have more questions, ask the next one
-      if (currentStep < 5) {
+      if (currentStep < 4) {
         // Use the NEXT question index based on the updated step
         const nextQuestionIndex = currentStep; // This is now the next question index after incrementing
         if (nextQuestionIndex < wishlistQuestions.length) {
@@ -563,37 +554,36 @@ export function WishlistChat() {
       }
     }
   };
-  return <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50 p-2">
-      {/* Dashboard Button */}
-      <div className="w-full max-w-2xl bg-gradient-to-r from-emerald-500 to-green-600 p-3 rounded-t-xl shadow-lg flex justify-center">
-        <Link to="/dashboard" className="bg-white/20 hover:bg-white/30 text-white py-2 px-4 rounded-lg transition-colors duration-200 flex items-center shadow-sm">
-          <ClipboardListIcon size={16} className="mr-2" />
-          Go to Dashboard
-        </Link>
-      </div>
-      <div className="w-full max-w-2xl bg-white rounded-b-xl shadow-lg overflow-hidden flex flex-col h-[85vh] sm:h-[80vh]">
+  return <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-br from-slate-100 via-gray-50 to-emerald-50/30 p-2">
+      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[90vh] sm:h-[85vh] border border-gray-100">
         {/* Header */}
-        <div className="p-4 bg-gradient-to-r from-emerald-500 to-green-600 text-white flex justify-between items-center">
+        <div className="p-2 sm:p-3 bg-gradient-to-r from-emerald-500 via-emerald-600 to-green-700 text-white flex justify-between items-center shadow-lg">
           <div className="flex items-center">
-            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white mr-3">
-              A
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/30 to-white/10 flex items-center justify-center text-white mr-2 shadow-md border border-white/20">
+              M
             </div>
-            <h1 className="text-xl font-semibold">Arya Office Wishlist</h1>
+            <h1 className="text-lg font-semibold">Office Wishlist</h1>
           </div>
-          {currentUser && currentUser.isKnown && <div className={`flex items-center ${currentUser.onNaughtyList ? 'bg-red-500/30' : 'bg-white/10'} rounded-full px-3 py-1`}>
-              <span className="mr-2 text-sm font-medium">
-                {currentUser.name} {currentUser.onNaughtyList ? '😈' : '😇'}
-              </span>
-              {currentUser.profilePic && <img src={currentUser.profilePic} alt={currentUser.name} className={`w-7 h-7 rounded-full object-cover border-2 ${currentUser.onNaughtyList ? 'border-red-300/50' : 'border-white/30'}`} />}
-            </div>}
+          <div className="flex items-center space-x-3">
+            {currentUser && currentUser.isKnown && <div className={`flex items-center ${currentUser.onNaughtyList ? 'bg-gradient-to-r from-red-500/30 to-red-600/20' : 'bg-gradient-to-r from-white/20 to-white/10'} rounded-full px-3 py-1 shadow-md border border-white/20`}>
+                <span className="mr-2 text-xs font-medium">
+                  {currentUser.name} {currentUser.onNaughtyList ? '😈' : '😇'}
+                </span>
+                {currentUser.profilePic && <img src={currentUser.profilePic} alt={currentUser.name} className={`w-6 h-6 rounded-full object-cover border-2 ${currentUser.onNaughtyList ? 'border-red-300/50' : 'border-white/30'} shadow-sm`} />}
+              </div>}
+            <Link to="/dashboard" className="bg-white/20 hover:bg-white/30 text-white py-2 px-4 rounded-lg transition-all duration-300 flex items-center shadow-md hover:shadow-lg border border-white/20 backdrop-blur-sm">
+              <ClipboardListIcon size={16} className="mr-2" />
+              Go to Dashboard
+            </Link>
+          </div>
         </div>
         {/* Chat area */}
-        <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-gradient-to-b from-gray-50 to-gray-100">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4 bg-gradient-to-br from-slate-50 via-gray-50 to-emerald-50/30">
           {messages.map(message => <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} animate-[fadeIn_0.3s_ease-out]`}>
-              {message.type === 'bot' && <div className="w-6 h-6 sm:w-8 sm:h-8 mr-2 rounded-full bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center text-white text-xs shadow-md flex-shrink-0">
-                  A
+              {message.type === 'bot' && <div className="w-8 h-8 sm:w-10 sm:h-10 mr-2 rounded-full bg-gradient-to-br from-emerald-400 via-emerald-500 to-green-600 flex items-center justify-center text-white text-xs shadow-lg flex-shrink-0 border border-emerald-300/20">
+                  M
                 </div>}
-              <div className={`max-w-[85%] sm:max-w-[80%] p-3 sm:p-4 rounded-2xl ${message.type === 'user' ? 'bg-gradient-to-br from-emerald-500 to-green-600 text-white rounded-tr-none shadow-md' : 'bg-white border border-gray-100 text-gray-800 rounded-tl-none shadow-md'}`}>
+              <div className={`max-w-[85%] sm:max-w-[80%] p-3 sm:p-4 rounded-2xl ${message.type === 'user' ? 'bg-gradient-to-br from-emerald-500 via-emerald-600 to-green-700 text-white rounded-tr-none shadow-lg border border-emerald-400/20' : 'bg-white border border-gray-200 text-gray-800 rounded-tl-none shadow-lg'}`}>
                 <p className="text-xs sm:text-sm whitespace-pre-wrap leading-relaxed">
                   {message.text}
                 </p>
@@ -604,10 +594,10 @@ export function WishlistChat() {
               </div>
             </div>)}
           {isTyping && <div className="flex items-start animate-[fadeIn_0.3s_ease-out]">
-              <div className="w-8 h-8 mr-2 rounded-full bg-gradient-to-br from-emerald-400 to-green-600 flex items-center justify-center text-white text-xs shadow-md">
-                A
+              <div className="w-10 h-10 mr-2 rounded-full bg-gradient-to-br from-emerald-400 via-emerald-500 to-green-600 flex items-center justify-center text-white text-xs shadow-lg border border-emerald-300/20">
+                M
               </div>
-              <div className="bg-white p-4 rounded-2xl rounded-tl-none shadow-md border border-gray-100">
+              <div className="bg-white p-4 rounded-2xl rounded-tl-none shadow-lg border border-gray-200">
                 <div className="flex space-x-1">
                   <div className="w-2 h-2 rounded-full bg-emerald-400 animate-bounce" style={{
                 animationDelay: '0s'
@@ -630,14 +620,14 @@ export function WishlistChat() {
           <div ref={messagesEndRef} />
         </div>
         {/* Input area */}
-        <div className="p-3 sm:p-4 border-t border-gray-100 bg-white">
+        <div className="p-3 sm:p-4 border-t border-gray-200 bg-gradient-to-r from-white to-gray-50/50 shadow-lg">
           <div className="flex space-x-2">
             <input type="text" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => {
             if (e.key === 'Enter' && input.trim()) {
               handleSubmit();
             }
-          }} className="flex-1 rounded-full border border-gray-200 py-2 sm:py-3 px-3 sm:px-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm text-sm sm:text-base" placeholder="Type your message..." disabled={formSubmitted} />
-            <button onClick={handleSubmit} className="bg-gradient-to-r from-emerald-500 to-green-600 text-white p-2 sm:p-3 rounded-full shadow-md hover:shadow-lg hover:from-emerald-600 hover:to-green-700 transition-all disabled:opacity-50 flex-shrink-0" disabled={!input.trim() || formSubmitted}>
+          }} className="flex-1 rounded-full border border-gray-300 py-2 sm:py-3 px-3 sm:px-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-md text-sm sm:text-base bg-white/90 backdrop-blur-sm" placeholder="Type your message..." disabled={formSubmitted} />
+            <button onClick={handleSubmit} className="bg-gradient-to-r from-emerald-500 via-emerald-600 to-green-700 text-white p-2 sm:p-3 rounded-full shadow-lg hover:shadow-xl hover:from-emerald-600 hover:via-emerald-700 hover:to-green-800 transition-all duration-300 disabled:opacity-50 flex-shrink-0 border border-emerald-400/20" disabled={!input.trim() || formSubmitted}>
               <SendIcon size={18} className="sm:w-5 sm:h-5" />
             </button>
           </div>
