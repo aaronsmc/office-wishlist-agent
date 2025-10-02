@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { storageService } from '../services/StorageService';
+import { apiService } from '../services/ApiService';
 import { ArrowLeftIcon, TrashIcon, RefreshCwIcon, XCircleIcon, ClipboardListIcon } from 'lucide-react';
 // Type for a wishlist submission
 type WishlistSubmission = {
@@ -21,30 +21,46 @@ export function Dashboard() {
   useEffect(() => {
     loadSubmissions();
   }, []);
-  // Function to load submissions from storage
-  const loadSubmissions = () => {
+  // Function to load submissions from server
+  const loadSubmissions = async () => {
     setLoading(true);
-    const data = storageService.getAllSubmissions();
-    // Sort by timestamp (newest first)
-    const sortedData = [...data].sort((a, b) => b.timestamp - a.timestamp);
-    setSubmissions(sortedData);
-    setLoading(false);
+    try {
+      console.log('Loading submissions from server...');
+      const data = await apiService.getAllSubmissions();
+      console.log('Retrieved submissions:', data);
+      // Sort by timestamp (newest first)
+      const sortedData = [...data].sort((a, b) => b.timestamp - a.timestamp);
+      setSubmissions(sortedData);
+    } catch (error) {
+      console.error('Error loading submissions:', error);
+      setSubmissions([]);
+    } finally {
+      setLoading(false);
+    }
   };
   // Handle deleting a submission
-  const handleDelete = (id: string, event: React.MouseEvent) => {
+  const handleDelete = async (id: string, event: React.MouseEvent) => {
     event.stopPropagation();
-    storageService.deleteSubmissionById(id);
-    loadSubmissions();
-    if (selectedSubmission?.id === id) {
-      setSelectedSubmission(null);
+    try {
+      await apiService.deleteSubmission(id);
+      loadSubmissions();
+      if (selectedSubmission?.id === id) {
+        setSelectedSubmission(null);
+      }
+    } catch (error) {
+      console.error('Error deleting submission:', error);
     }
   };
   // Handle clearing all submissions
-  const handleClearAll = () => {
+  const handleClearAll = async () => {
     if (window.confirm('Are you sure you want to delete ALL submissions? This cannot be undone.')) {
-      storageService.clearAllSubmissions();
-      setSubmissions([]);
-      setSelectedSubmission(null);
+      try {
+        await apiService.clearAllSubmissions();
+        setSubmissions([]);
+        setSelectedSubmission(null);
+      } catch (error) {
+        console.error('Error clearing submissions:', error);
+      }
     }
   };
   // Format date from timestamp
