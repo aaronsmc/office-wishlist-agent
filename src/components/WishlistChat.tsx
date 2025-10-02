@@ -96,8 +96,49 @@ const employees = [{
   profilePic: "/ian.jpg",
   notes: 'Analytics expert'
 }];
-// The wishlist questions to ask
-const wishlistQuestions = ["What are your 'must-have' items for the new office?", "What 'nice-to-have' items would improve your office experience?", "What 'preposterous' but fun wishes do you have for the new office? We won't take this one seriously...... Unless? 😉", 'Tell us your dream snack and drink preferences for the office kitchen!', 'Do you have anything else you would like to share?'];
+// The wishlist questions to ask with variations
+const wishlistQuestions = [
+  // Must-have questions
+  [
+    "What are your 'must-have' items for the new office?",
+    "What are the absolute essentials you need in the new office?",
+    "What items are non-negotiable for your office setup?",
+    "What are your deal-breaker items for the new office?",
+    "What office items can you absolutely not live without?"
+  ],
+  // Nice-to-have questions
+  [
+    "What 'nice-to-have' items would improve your office experience?",
+    "What would make your office life even better?",
+    "What luxury items would you love to have in the office?",
+    "What would be the cherry on top for your office setup?",
+    "What items would make you go 'wow, this office is amazing!'?"
+  ],
+  // Preposterous wishes questions
+  [
+    "What 'preposterous' but fun wishes do you have for the new office? We won't take this one seriously...... Unless? 😉",
+    "What completely ridiculous but awesome ideas do you have for the office? Dream big! 🚀",
+    "What wild, over-the-top office features would make you laugh but secretly love?",
+    "What crazy office ideas do you have? No idea is too outlandish! 🤪",
+    "What would make the office absolutely legendary? Think outside the box! 💡"
+  ],
+  // Snack questions
+  [
+    "Tell us your dream snack and drink preferences for the office kitchen!",
+    "What snacks and drinks would make the office kitchen legendary?",
+    "What would you want to see in the office snack bar?",
+    "What treats would make you never want to leave the office?",
+    "What snacks would make the office the envy of all other companies?"
+  ],
+  // Additional comments questions
+  [
+    "Do you have anything else you would like to share?",
+    "Any final thoughts or wild ideas for the office?",
+    "What else is on your mind about the new office?",
+    "Any other brilliant ideas you want to share?",
+    "What else would make this office absolutely perfect?"
+  ]
+];
 // Fun reactions to user responses
 const getReactionToMustHaves = (response: string) => {
   const lowerResponse = response.toLowerCase();
@@ -249,10 +290,18 @@ export function WishlistChat() {
   };
   // Initialize chat
   useEffect(() => {
+    const introMessages = [
+      "Hey there! 👋 I'm Arya, your friendly office wishlist collector. What's your name so I can check if you're on the nice or naughty list? Only those on the nice list get to add something to the office wishlist! 😉",
+      "Hello! 🎉 I'm Arya, the office wishlist fairy! Tell me your name and I'll check if you're on the nice list. Nice list members get to add their dream office items! ✨",
+      "Hi there! 👋 I'm Arya, your office wishlist genie! What's your name? I need to verify you're on the nice list before we can add your wishes to the office dream list! 🧞‍♀️",
+      "Greetings! 🎊 I'm Arya, the keeper of the office wishlist! Share your name so I can confirm you're on the nice list. Only nice list members can contribute to our office wishlist! 📝",
+      "Hey! 👋 I'm Arya, your office wishlist curator! What's your name? I'll check if you're on the nice list - only nice people get to add items to our office wishlist! 😊"
+    ];
+    const randomIntro = introMessages[Math.floor(Math.random() * introMessages.length)];
     setMessages([{
       id: uuidv4(),
       type: 'bot',
-      text: "Hey there! 👋 I'm Arya, your friendly office wishlist collector. What's your name so I can check if you're on the nice or naughty list? Only those on the nice list get to add something to the office wishlist! 😉"
+      text: randomIntro
     }]);
   }, []);
   // Scroll to bottom when messages change
@@ -299,7 +348,10 @@ export function WishlistChat() {
     if (currentStep >= 1 && currentStep <= 5) {
       const questionIndex = currentStep - 1;
       if (questionIndex < wishlistQuestions.length) {
-        addBotMessage(wishlistQuestions[questionIndex]);
+        // Get random variation of the question
+        const questionVariations = wishlistQuestions[questionIndex];
+        const randomQuestion = questionVariations[Math.floor(Math.random() * questionVariations.length)];
+        addBotMessage(randomQuestion);
       }
     }
   };
@@ -358,8 +410,17 @@ export function WishlistChat() {
     setInput('');
     // If the user is already identified as Julien (on the naughty list)
     if (currentUser?.onNaughtyList) {
-      // Always respond with "WOMP WOMP" for any input from Julien
-      addBotMessage('WOMP WOMP 😈');
+      // Creative responses for Julien
+      const julienResponses = [
+        "Nice try, Julien! But you're still on the naughty list. Maybe try being extra nice next time? 😏",
+        "Julien, Julien, Julien... you know the rules! Naughty list members don't get to add to the wishlist. Try again next year! 🎅",
+        "Oh Julien, you're persistent! But rules are rules - naughty list means no wishlist privileges. Better luck next time! 😄",
+        "Julien, my friend, you're charming but still on the naughty list. Maybe bring some cookies to the office? 🍪",
+        "Julien, I appreciate the effort, but you're still on the naughty list! Try being extra helpful around the office! 😉",
+        "Julien, you're funny, but naughty list = no wishlist access. Maybe volunteer for the next office cleanup? 🧹"
+      ];
+      const randomResponse = julienResponses[Math.floor(Math.random() * julienResponses.length)];
+      addBotMessage(randomResponse);
       return;
     }
     // If we're at the name step
