@@ -7,7 +7,6 @@ type WishlistState = {
   mustHaveItems: string;
   niceToHaveItems: string;
   preposterousWishes: string;
-  dreamSnacks: string;
   additionalComments: string;
 };
 // Define the context type
@@ -25,7 +24,6 @@ const WishlistContext = createContext<WishlistContextType>({
     mustHaveItems: '',
     niceToHaveItems: '',
     preposterousWishes: '',
-    dreamSnacks: '',
     additionalComments: ''
   },
   updateAnswer: () => {},
@@ -44,7 +42,6 @@ export const WishlistProvider: React.FC<{
     mustHaveItems: '',
     niceToHaveItems: '',
     preposterousWishes: '',
-    dreamSnacks: '',
     additionalComments: ''
   });
   // Update a specific field in the state
@@ -80,7 +77,6 @@ export const WishlistProvider: React.FC<{
         must_have_items: wishlistState.mustHaveItems,
         nice_to_have_items: wishlistState.niceToHaveItems,
         preposterous_wishes: wishlistState.preposterousWishes,
-        dream_snacks: wishlistState.dreamSnacks,
         additional_comments: wishlistState.additionalComments
       };
       console.log('submission object:', submission);

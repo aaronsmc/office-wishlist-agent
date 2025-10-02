@@ -98,21 +98,13 @@ const employees = [{
 }];
 // The wishlist questions to ask with variations
 const wishlistQuestions = [
-  // Dream snacks questions (FIRST!)
+  // Must-have questions (including snacks)
   [
-    "What are your dream snacks for the office? 🍿",
-    "What snacks would make the office kitchen absolutely amazing?",
-    "What dream snacks would you love to have available?",
-    "What treats would make the office the best place to work?",
-    "What snacks would make you never want to leave the office?"
-  ],
-  // Must-have questions
-  [
-    "What are your 'must-have' items for the new office?",
-    "What are the absolute essentials you need in the new office?",
-    "What items are non-negotiable for your office setup?",
-    "What are your deal-breaker items for the new office?",
-    "What office items can you absolutely not live without?"
+    "What are your 'must-have' items for the new office? (include your favourite snacks)",
+    "What are the absolute essentials you need in the new office? (including snacks)",
+    "What items are non-negotiable for your office setup? (don't forget snacks!)",
+    "What are your deal-breaker items for the new office? (snacks included)",
+    "What office items can you absolutely not live without? (especially snacks!)"
   ],
   // Nice-to-have questions
   [
@@ -130,6 +122,14 @@ const wishlistQuestions = [
     "What crazy office ideas do you have? No idea is too outlandish! 🤪",
     "What would make the office absolutely legendary? Think outside the box! 💡"
   ],
+  // Excitement question
+  [
+    "Are you excited for the new office?",
+    "How excited are you about the new office?",
+    "What's your excitement level for the new office?",
+    "Are you looking forward to the new office?",
+    "How pumped are you for the new office?"
+  ]
 ];
 // Fun reactions to user responses
 const getReactionToMustHaves = (response: string) => {
@@ -268,6 +268,18 @@ const getReactionToSnacks = (response: string) => {
   }
   return 'Your snack preferences have been noted! The office kitchen shall be stocked accordingly. 🛒';
 };
+
+// Reaction to excitement question
+const getReactionToExcitement = (response: string) => {
+  const lowerResponse = response.toLowerCase();
+  if (lowerResponse.includes('yes') || lowerResponse.includes('excited') || lowerResponse.includes('pumped') || lowerResponse.includes('can\'t wait')) {
+    return "That's the spirit! 🎉 I'm excited too! This new office is going to be amazing!";
+  }
+  if (lowerResponse.includes('no') || lowerResponse.includes('not') || lowerResponse.includes('meh')) {
+    return "Aww, well I hope we can change your mind! The new office is going to be pretty awesome! 😊";
+  }
+  return "Great to hear your thoughts! The new office is going to be fantastic! 🚀";
+};
 const getReactionToAdditionalComments = (response: string) => {
   const lowerResponse = response.toLowerCase();
   if (lowerResponse.includes('thank') || lowerResponse.includes('thanks')) {
@@ -304,7 +316,6 @@ export function WishlistChat() {
     mustHaveItems: '',
     niceToHaveItems: '',
     preposterousWishes: '',
-    dreamSnacks: '',
     additionalComments: ''
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -358,7 +369,7 @@ export function WishlistChat() {
   const getReactionToAnswer = (answer: string, step: number) => {
     switch (step) {
       case 1:
-        // Must-have items
+        // Must-have items (including snacks)
         return getReactionToMustHaves(answer);
       case 2:
         // Nice-to-have items
@@ -367,11 +378,8 @@ export function WishlistChat() {
         // Preposterous wishes
         return getReactionToPreposterousWishes(answer);
       case 4:
-        // Snack preferences
-        return getReactionToSnacks(answer);
-      case 5:
-        // Additional comments
-        return getReactionToAdditionalComments(answer);
+        // Excitement question
+        return getReactionToExcitement(answer);
       default:
         return 'Thanks for sharing!';
     }
@@ -398,24 +406,23 @@ export function WishlistChat() {
     // Map the current step to the corresponding form field
     switch (currentStep) {
       case 1:
-        // Dream snacks (now first!)
-        newFormData.dreamSnacks = response;
-        console.log('Saved to dreamSnacks:', response);
-        break;
-      case 2:
-        // Must-have items
+        // Must-have items (including snacks)
         newFormData.mustHaveItems = response;
         console.log('Saved to mustHaveItems:', response);
         break;
-      case 3:
+      case 2:
         // Nice-to-have items
         newFormData.niceToHaveItems = response;
         console.log('Saved to niceToHaveItems:', response);
         break;
-      case 4:
+      case 3:
         // Preposterous wishes
         newFormData.preposterousWishes = response;
         console.log('Saved to preposterousWishes:', response);
+        break;
+      case 4:
+        // Excitement question (not saved, just for fun)
+        console.log('Excitement response:', response);
         break;
     }
     setFormData(newFormData);
@@ -424,17 +431,17 @@ export function WishlistChat() {
     let fieldName: keyof typeof newFormData;
     switch (currentStep) {
       case 1:
-        fieldName = 'dreamSnacks';
-        break;
-      case 2:
         fieldName = 'mustHaveItems';
         break;
-      case 3:
+      case 2:
         fieldName = 'niceToHaveItems';
         break;
-      case 4:
+      case 3:
         fieldName = 'preposterousWishes';
         break;
+      case 4:
+        // Excitement question - don't save to context
+        return;
       default:
         fieldName = 'additionalComments';
     }
