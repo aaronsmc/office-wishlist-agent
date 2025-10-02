@@ -26,13 +26,13 @@ const employees = [{
   notes: 'Brilliant coder, solves complex problems'
 }, {
   name: 'Julien',
-  role: 'Cold Caller',
+  role: 'Growth Expert',
   profilePic: "/julien.jpg",
   notes: 'Amazing at building relationships with prospects',
   onNaughtyList: true // Julien is on the naughty list!
 }, {
   name: 'Malini',
-  role: 'Growth',
+  role: 'Growth Expert',
   profilePic: "/malini.jpg",
   notes: 'Creative marketing strategist'
 }, {
@@ -62,7 +62,7 @@ const employees = [{
   notes: 'Frontend expert'
 }, {
   name: 'Stephen',
-  role: 'Customer Success',
+  role: 'Customer Success Expert',
   profilePic: "/stephen.jpg",
   notes: 'Makes customers happy'
 }, {
@@ -72,7 +72,7 @@ const employees = [{
   notes: 'Algorithm wizard'
 }, {
   name: 'Ivan',
-  role: 'Engineer',
+  role: 'Growth Expert',
   profilePic: "/ivan.jpg",
   notes: 'Infrastructure specialist'
 }, {
@@ -134,95 +134,137 @@ const wishlistQuestions = [
 // Fun reactions to user responses
 const getReactionToMustHaves = (response: string) => {
   const lowerResponse = response.toLowerCase();
-  if (lowerResponse.includes('coffee') || lowerResponse.includes('espresso')) {
+  if (lowerResponse.includes('coffee') || lowerResponse.includes('espresso') || lowerResponse.includes('caffeine')) {
     return "A coffee enthusiast! I'll make sure we don't cheap out on the coffee machine. ☕ Productivity depends on it!";
   }
-  if (lowerResponse.includes('monitor') || lowerResponse.includes('screen')) {
+  if (lowerResponse.includes('monitor') || lowerResponse.includes('screen') || lowerResponse.includes('display')) {
     return 'Ah, a multi-monitor setup person! More screen real estate equals more productivity... or just more browser tabs open? 🖥️';
   }
-  if (lowerResponse.includes('chair') || lowerResponse.includes('ergonomic')) {
+  if (lowerResponse.includes('chair') || lowerResponse.includes('ergonomic') || lowerResponse.includes('comfortable')) {
     return 'Your back thanks you for prioritizing ergonomics! No one wants to sound like Rice Krispies when they stand up. Snap, crackle, pop! 🪑';
   }
-  if (lowerResponse.includes('window') || lowerResponse.includes('natural light')) {
+  if (lowerResponse.includes('window') || lowerResponse.includes('natural light') || lowerResponse.includes('sunlight')) {
     return "Natural light enthusiast! Vitamin D and fewer vampire jokes - I'm noting this down. 🌞";
   }
-  if (lowerResponse.includes('quiet') || lowerResponse.includes('noise')) {
+  if (lowerResponse.includes('quiet') || lowerResponse.includes('noise') || lowerResponse.includes('silence')) {
     return "Peace and quiet, got it! I'll suggest soundproofing for when the sales team celebrates closing deals. 🤫";
   }
-  if (lowerResponse.includes('plant') || lowerResponse.includes('green')) {
+  if (lowerResponse.includes('plant') || lowerResponse.includes('green') || lowerResponse.includes('nature')) {
     return "Plants are great! They provide oxygen and someone to talk to when your code isn't working. 🌱";
   }
-  if (lowerResponse.includes('desk') || lowerResponse.includes('standing desk')) {
+  if (lowerResponse.includes('desk') || lowerResponse.includes('standing desk') || lowerResponse.includes('workspace')) {
     return "Standing desks! Great for your health and for dramatic 'I've solved it!' moments when you can stand up suddenly. 🧍";
+  }
+  if (lowerResponse.includes('keyboard') || lowerResponse.includes('mouse') || lowerResponse.includes('peripherals')) {
+    return "Good peripherals are essential! Can't have productivity without the right tools. ⌨️";
+  }
+  if (lowerResponse.includes('internet') || lowerResponse.includes('wifi') || lowerResponse.includes('connection')) {
+    return "Fast internet is non-negotiable! Can't have those Zoom calls cutting out during important meetings. 📶";
+  }
+  if (lowerResponse.includes('storage') || lowerResponse.includes('space') || lowerResponse.includes('closet')) {
+    return "Storage space is crucial! Gotta have somewhere to stash all those company swag items. 📦";
   }
   return "Those are some solid must-haves! I'm taking notes faster than a startup burns through venture capital. 📝";
 };
 const getReactionToNiceToHaves = (response: string) => {
   const lowerResponse = response.toLowerCase();
-  if (lowerResponse.includes('game') || lowerResponse.includes('ping pong') || lowerResponse.includes('foosball')) {
+  if (lowerResponse.includes('game') || lowerResponse.includes('ping pong') || lowerResponse.includes('foosball') || lowerResponse.includes('pool')) {
     return 'Games in the office! Perfect for team bonding and for asserting dominance over the marketing department. 🏓';
   }
-  if (lowerResponse.includes('nap') || lowerResponse.includes('rest')) {
+  if (lowerResponse.includes('nap') || lowerResponse.includes('rest') || lowerResponse.includes('sleep')) {
     return "Nap pods? I see you're a person of culture. 'It's not sleeping, it's compiling!' 😴";
   }
-  if (lowerResponse.includes('gym') || lowerResponse.includes('fitness')) {
+  if (lowerResponse.includes('gym') || lowerResponse.includes('fitness') || lowerResponse.includes('workout')) {
     return 'Office gym! Perfect for working out while mentally debugging that function you wrote earlier. 💪';
   }
-  if (lowerResponse.includes('view') || lowerResponse.includes('rooftop')) {
+  if (lowerResponse.includes('view') || lowerResponse.includes('rooftop') || lowerResponse.includes('balcony')) {
     return 'A nice view would be amazing! Something better to stare at than a loading screen. 🏙️';
   }
-  if (lowerResponse.includes('music') || lowerResponse.includes('sound system')) {
+  if (lowerResponse.includes('music') || lowerResponse.includes('sound system') || lowerResponse.includes('speakers')) {
     return 'Office-wide sound system? Just prepare for the inevitable battles between the lo-fi hip-hop fans and the death metal enthusiasts. 🎵';
   }
-  if (lowerResponse.includes('beer') || lowerResponse.includes('happy hour')) {
+  if (lowerResponse.includes('beer') || lowerResponse.includes('happy hour') || lowerResponse.includes('bar')) {
     return 'Office happy hours! Where the real team bonding happens and secrets accidentally slip out. 🍻';
+  }
+  if (lowerResponse.includes('massage') || lowerResponse.includes('spa') || lowerResponse.includes('wellness')) {
+    return "Office spa services! Nothing says 'we care about your wellbeing' like a massage during lunch break. 🧘";
+  }
+  if (lowerResponse.includes('library') || lowerResponse.includes('quiet room') || lowerResponse.includes('study')) {
+    return "A quiet library space! Perfect for deep work and pretending you're in a fancy university. 📚";
+  }
+  if (lowerResponse.includes('kitchen') || lowerResponse.includes('cafe') || lowerResponse.includes('cafeteria')) {
+    return "A proper office kitchen! Where the real magic happens - coffee, gossip, and the occasional microwave explosion. 🍳";
+  }
+  if (lowerResponse.includes('outdoor') || lowerResponse.includes('patio') || lowerResponse.includes('terrace')) {
+    return "Outdoor workspace! Fresh air and vitamin D while you code. Just watch out for the pigeons! 🐦";
   }
   return "These nice-to-haves would definitely level up the office experience! I'm adding them to the 'convince the CFO' list. ✨";
 };
 const getReactionToPreposterousWishes = (response: string) => {
   const lowerResponse = response.toLowerCase();
-  if (lowerResponse.includes('slide') || lowerResponse.includes('fireman pole')) {
+  if (lowerResponse.includes('slide') || lowerResponse.includes('fireman pole') || lowerResponse.includes('spiral')) {
     return "A slide between floors?! That's both ridiculous and... actually pretty awesome. Wheeeee! 🛝";
   }
-  if (lowerResponse.includes('pool') || lowerResponse.includes('hot tub')) {
+  if (lowerResponse.includes('pool') || lowerResponse.includes('hot tub') || lowerResponse.includes('swimming')) {
     return "An office pool? 'I'm not late, I was doing my morning laps.' I love the creativity! 🏊";
   }
-  if (lowerResponse.includes('pet') || lowerResponse.includes('dog') || lowerResponse.includes('cat')) {
+  if (lowerResponse.includes('pet') || lowerResponse.includes('dog') || lowerResponse.includes('cat') || lowerResponse.includes('animal')) {
     return 'Office pets! Great for morale, terrible for keeping food unattended on your desk. 🐕';
   }
-  if (lowerResponse.includes('robot') || lowerResponse.includes('ai')) {
+  if (lowerResponse.includes('robot') || lowerResponse.includes('ai') || lowerResponse.includes('automation')) {
     return "Robot assistants? Hey now, don't try to replace me! Though I wouldn't mind a robot friend... 🤖";
   }
-  if (lowerResponse.includes('helicopter') || lowerResponse.includes('private jet')) {
+  if (lowerResponse.includes('helicopter') || lowerResponse.includes('private jet') || lowerResponse.includes('aircraft')) {
     return "Company helicopter? I'll add it to the list right after 'profitable business model'. 🚁";
   }
-  if (lowerResponse.includes('nap') || lowerResponse.includes('sleep')) {
+  if (lowerResponse.includes('nap') || lowerResponse.includes('sleep') || lowerResponse.includes('bedroom')) {
     return "Sleeping quarters? 'I'm not living at work, I'm working where I live!' Nice try! 😴";
+  }
+  if (lowerResponse.includes('movie') || lowerResponse.includes('theater') || lowerResponse.includes('cinema')) {
+    return "Office movie theater? Perfect for those 'team building' Netflix sessions during lunch! 🎬";
+  }
+  if (lowerResponse.includes('garden') || lowerResponse.includes('greenhouse') || lowerResponse.includes('rooftop')) {
+    return "Office garden! Nothing like growing your own vegetables while debugging code. Farm-to-desk dining! 🌱";
+  }
+  if (lowerResponse.includes('arcade') || lowerResponse.includes('gaming') || lowerResponse.includes('console')) {
+    return "Office arcade! Because nothing says 'productive work environment' like a Pac-Man machine in the break room! 🕹️";
+  }
+  if (lowerResponse.includes('ball pit') || lowerResponse.includes('playground') || lowerResponse.includes('jungle gym')) {
+    return "Office ball pit! For when you need to think like a 5-year-old to solve complex problems! 🎪";
   }
   return "Wow, that's gloriously preposterous! I'm secretly hoping the CEO sees this and says 'why not?' 🤣";
 };
 const getReactionToSnacks = (response: string) => {
   const lowerResponse = response.toLowerCase();
-  if (lowerResponse.includes('chocolate') || lowerResponse.includes('candy')) {
+  if (lowerResponse.includes('chocolate') || lowerResponse.includes('candy') || lowerResponse.includes('sweet')) {
     return 'Noted: sugar-based debugging fuel! The perfect companion for late-night coding sessions. 🍫';
   }
-  if (lowerResponse.includes('fruit') || lowerResponse.includes('healthy')) {
+  if (lowerResponse.includes('fruit') || lowerResponse.includes('healthy') || lowerResponse.includes('organic')) {
     return 'Healthy snacks! Your body thanks you, even if your taste buds are filing a formal complaint. 🍎';
   }
-  if (lowerResponse.includes('chips') || lowerResponse.includes('crisps')) {
+  if (lowerResponse.includes('chips') || lowerResponse.includes('crisps') || lowerResponse.includes('salty')) {
     return "Chips - the official sound of open office spaces! *crunch crunch* 'Sorry, what was that important thing you said?' 🍟";
   }
-  if (lowerResponse.includes('coffee') || lowerResponse.includes('espresso')) {
+  if (lowerResponse.includes('coffee') || lowerResponse.includes('espresso') || lowerResponse.includes('caffeine')) {
     return 'Premium coffee! Turning caffeine into code since... well, forever. ☕';
   }
-  if (lowerResponse.includes('tea')) {
+  if (lowerResponse.includes('tea') || lowerResponse.includes('herbal')) {
     return 'A tea connoisseur! Perfect for when you need to look contemplative while staring at a bug. 🍵';
   }
-  if (lowerResponse.includes('soda') || lowerResponse.includes('coke') || lowerResponse.includes('pepsi')) {
+  if (lowerResponse.includes('soda') || lowerResponse.includes('coke') || lowerResponse.includes('pepsi') || lowerResponse.includes('soft drink')) {
     return "Soda stash noted! Nothing says 'I'm an adult' like a sugar rush at 3 PM. 🥤";
   }
   if (lowerResponse.includes('beer') || lowerResponse.includes('wine') || lowerResponse.includes('alcohol')) {
     return "Adult beverages! For when 'It works on my machine' needs to be celebrated or mourned. 🍻";
+  }
+  if (lowerResponse.includes('nuts') || lowerResponse.includes('trail mix') || lowerResponse.includes('granola')) {
+    return "Nuts and trail mix! Perfect for when you need to feel like you're hiking while debugging. 🥜";
+  }
+  if (lowerResponse.includes('yogurt') || lowerResponse.includes('smoothie') || lowerResponse.includes('protein')) {
+    return "Protein snacks! For when you need to fuel your muscles while your brain does the heavy lifting. 💪";
+  }
+  if (lowerResponse.includes('ice cream') || lowerResponse.includes('frozen') || lowerResponse.includes('dessert')) {
+    return "Ice cream! Because nothing says 'I'm stressed' like eating frozen dairy at 2 PM. 🍦";
   }
   return 'Your snack preferences have been noted! The office kitchen shall be stocked accordingly. 🛒';
 };
@@ -525,7 +567,9 @@ export function WishlistChat() {
         const nextQuestionIndex = currentStep; // This is now the next question index after incrementing
         if (nextQuestionIndex < wishlistQuestions.length) {
           setTimeout(() => {
-            addBotMessage(wishlistQuestions[nextQuestionIndex]);
+            const questionVariations = wishlistQuestions[nextQuestionIndex];
+            const randomQuestion = questionVariations[Math.floor(Math.random() * questionVariations.length)];
+            addBotMessage(randomQuestion);
           }, 2000); // Add a delay before asking the next question
         }
       } else {
