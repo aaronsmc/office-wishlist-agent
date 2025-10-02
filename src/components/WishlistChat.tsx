@@ -391,6 +391,7 @@ export function WishlistChat() {
   };
   // Save response to form data
   const saveResponse = (response: string) => {
+    console.log('saveResponse called with currentStep:', currentStep, 'response:', response);
     const newFormData = {
       ...formData
     };
@@ -399,18 +400,22 @@ export function WishlistChat() {
       case 1:
         // Must-have items
         newFormData.mustHaveItems = response;
+        console.log('Saved to mustHaveItems:', response);
         break;
       case 2:
         // Nice-to-have items
         newFormData.niceToHaveItems = response;
+        console.log('Saved to niceToHaveItems:', response);
         break;
       case 3:
         // Preposterous wishes
         newFormData.preposterousWishes = response;
+        console.log('Saved to preposterousWishes:', response);
         break;
       case 4:
         // Dream snacks
         newFormData.dreamSnacks = response;
+        console.log('Saved to dreamSnacks:', response);
         break;
     }
     setFormData(newFormData);
@@ -434,6 +439,7 @@ export function WishlistChat() {
         fieldName = 'additionalComments';
     }
     
+    console.log('Calling updateAnswer with fieldName:', fieldName, 'value:', newFormData[fieldName]);
     updateAnswer(fieldName, newFormData[fieldName]);
   };
   // Submit the form to storage
@@ -571,7 +577,7 @@ export function WishlistChat() {
       }
       return;
     }
-    // If we're in the wishlist questions (steps 1-5)
+    // If we're in the wishlist questions (steps 1-4)
     if (currentStep >= 1 && currentStep <= 4) {
       // Save the response
       saveResponse(userInput);
