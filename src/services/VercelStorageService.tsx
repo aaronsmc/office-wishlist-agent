@@ -1,19 +1,14 @@
 import React from 'react';
 
-// Airtable service for reliable cross-device data storage
-export class AirtableService {
-  private baseId: string;
-  private apiKey: string;
-  private tableName: string;
+// Vercel KV (Redis) service for reliable cross-device data storage
+export class VercelStorageService {
+  private baseUrl: string;
 
   constructor() {
-    // Airtable configuration
-    this.baseId = 'appYourBaseId';
-    this.apiKey = 'keyYourApiKey';
-    this.tableName = 'WishlistSubmissions';
+    this.baseUrl = '/api';
   }
 
-  // Get all submissions from Airtable
+  // Get all submissions from Vercel KV
   async getAllSubmissions(): Promise<Array<{
     id: string;
     timestamp: number;
@@ -25,35 +20,22 @@ export class AirtableService {
     additionalComments: string;
   }>> {
     try {
-      const response = await fetch(`https://api.airtable.com/v0/${this.baseId}/${this.tableName}`, {
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
-        },
-      });
-
+      const response = await fetch(`${this.baseUrl}/submissions`);
+      
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      return data.records.map((record: any) => ({
-        id: record.id,
-        timestamp: new Date(record.createdTime).getTime(),
-        userName: record.fields.userName || '',
-        mustHaveItems: record.fields.mustHaveItems || '',
-        niceToHaveItems: record.fields.niceToHaveItems || '',
-        preposterousWishes: record.fields.preposterousWishes || '',
-        snackPreferences: record.fields.snackPreferences || [],
-        additionalComments: record.fields.additionalComments || '',
-      }));
+      return data || [];
     } catch (error) {
-      console.error('Error fetching from Airtable:', error);
+      console.error('Error fetching from Vercel KV:', error);
       // Fallback to localStorage
       return this.getFromLocalStorage();
     }
   }
 
-  // Save a new submission to Airtable
+  // Save a new submission to Vercel KV
   async saveSubmission(submission: {
     userName: string;
     mustHaveItems: string;
@@ -63,32 +45,22 @@ export class AirtableService {
     additionalComments: string;
   }): Promise<boolean> {
     try {
-      const response = await fetch(`https://api.airtable.com/v0/${this.baseId}/${this.tableName}`, {
+      const response = await fetch(`${this.baseUrl}/submissions`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          fields: {
-            userName: submission.userName,
-            mustHaveItems: submission.mustHaveItems,
-            niceToHaveItems: submission.niceToHaveItems,
-            preposterousWishes: submission.preposterousWishes,
-            snackPreferences: submission.snackPreferences.join(', '),
-            additionalComments: submission.additionalComments,
-          },
-        }),
+        body: JSON.stringify(submission),
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      console.log('Successfully saved to Airtable');
+      console.log('Successfully saved to Vercel KV');
       return true;
     } catch (error) {
-      console.error('Error saving to Airtable:', error);
+      console.error('Error saving to Vercel KV:', error);
       // Fallback to localStorage
       return this.saveToLocalStorage(submission);
     }
@@ -97,11 +69,8 @@ export class AirtableService {
   // Delete a specific submission
   async deleteSubmission(id: string): Promise<boolean> {
     try {
-      const response = await fetch(`https://api.airtable.com/v0/${this.baseId}/${this.tableName}/${id}`, {
+      const response = await fetch(`${this.baseUrl}/submissions?id=${id}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
-        },
       });
 
       if (!response.ok) {
@@ -110,7 +79,7 @@ export class AirtableService {
 
       return true;
     } catch (error) {
-      console.error('Error deleting from Airtable:', error);
+      console.error('Error deleting from Vercel KV:', error);
       // Fallback to localStorage
       return this.deleteFromLocalStorage(id);
     }
@@ -119,17 +88,17 @@ export class AirtableService {
   // Clear all submissions
   async clearAllSubmissions(): Promise<boolean> {
     try {
-      // Get all records first
-      const submissions = await this.getAllSubmissions();
-      
-      // Delete each record
-      for (const submission of submissions) {
-        await this.deleteSubmission(submission.id);
+      const response = await fetch(`${this.baseUrl}/submissions`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       return true;
     } catch (error) {
-      console.error('Error clearing Airtable:', error);
+      console.error('Error clearing Vercel KV:', error);
       // Fallback to localStorage
       return this.clearLocalStorage();
     }
@@ -206,4 +175,4 @@ export class AirtableService {
   }
 }
 
-export const airtableService = new AirtableService();
+export const vercelStorageService = new VercelStorageService();

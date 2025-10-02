@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext } from 'react';
-import { airtableService } from '../services/AirtableService';
+import { vercelStorageService } from '../services/VercelStorageService';
 // Define the wishlist state type
 type WishlistState = {
   currentQuestion: number;
@@ -74,12 +74,12 @@ export const WishlistProvider: React.FC<{
         additionalComments: wishlistState.additionalComments
       };
       
-      // Save to Airtable
-      const success = await airtableService.saveSubmission(submission);
+      // Save to Vercel KV
+      const success = await vercelStorageService.saveSubmission(submission);
       if (success) {
-        console.log('Form submitted successfully to Airtable:', submission);
+        console.log('Form submitted successfully to Vercel KV:', submission);
       } else {
-        console.error('Failed to submit form to Airtable');
+        console.error('Failed to submit form to Vercel KV');
       }
       return success;
     } catch (error) {

@@ -1,34 +1,30 @@
-// Vercel serverless function for handling submissions
-const fs = require('fs');
-const path = require('path');
+// Vercel serverless function for handling submissions with KV storage
+const { kv } = require('@vercel/kv');
 
-// Data file path (in Vercel's /tmp directory for persistence)
-const DATA_FILE = '/tmp/submissions.json';
+// Key for storing submissions in Vercel KV
+const SUBMISSIONS_KEY = 'wishlist_submissions';
 
-// Initialize data file if it doesn't exist
-const initializeData = () => {
-  if (!fs.existsSync(DATA_FILE)) {
-    fs.writeFileSync(DATA_FILE, JSON.stringify([]));
-  }
-};
-
-// Helper functions
-const readSubmissions = () => {
-  initializeData();
+// Helper functions for Vercel KV
+const readSubmissions = async () => {
   try {
-    const data = fs.readFileSync(DATA_FILE, 'utf8');
-    return JSON.parse(data);
+    const submissions = await kv.get(SUBMISSIONS_KEY);
+    return submissions || [];
   } catch (error) {
+    console.error('Error reading from KV:', error);
     return [];
   }
 };
 
-const writeSubmissions = (submissions) => {
-  initializeData();
-  fs.writeFileSync(DATA_FILE, JSON.stringify(submissions, null, 2));
+const writeSubmissions = async (submissions) => {
+  try {
+    await kv.set(SUBMISSIONS_KEY, submissions);
+  } catch (error) {
+    console.error('Error writing to KV:', error);
+    throw error;
+  }
 };
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
@@ -42,7 +38,7 @@ export default function handler(req, res) {
   try {
     switch (req.method) {
       case 'GET':
-        const submissions = readSubmissions();
+        const submissions = await readSubmissions();
         res.status(200).json(submissions);
         break;
 
@@ -53,9 +49,9 @@ export default function handler(req, res) {
           ...req.body
         };
         
-        const allSubmissions = readSubmissions();
+        const allSubmissions = await readSubmissions();
         allSubmissions.push(newSubmission);
-        writeSubmissions(allSubmissions);
+        await writeSubmissions(allSubmissions);
         
         res.status(200).json({ success: true, submission: newSubmission });
         break;
@@ -63,13 +59,13 @@ export default function handler(req, res) {
       case 'DELETE':
         if (req.query.id) {
           // Delete specific submission
-          const submissions = readSubmissions();
+          const submissions = await readSubmissions();
           const filteredSubmissions = submissions.filter(sub => sub.id !== req.query.id);
-          writeSubmissions(filteredSubmissions);
+          await writeSubmissions(filteredSubmissions);
           res.status(200).json({ success: true });
         } else {
           // Clear all submissions
-          writeSubmissions([]);
+          await writeSubmissions([]);
           res.status(200).json({ success: true });
         }
         break;

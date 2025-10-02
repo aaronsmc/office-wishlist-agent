@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { airtableService } from '../services/AirtableService';
+import { vercelStorageService } from '../services/VercelStorageService';
 import { ArrowLeftIcon, TrashIcon, RefreshCwIcon, XCircleIcon, ClipboardListIcon } from 'lucide-react';
 // Type for a wishlist submission
 type WishlistSubmission = {
@@ -21,12 +21,12 @@ export function Dashboard() {
   useEffect(() => {
     loadSubmissions();
   }, []);
-  // Function to load submissions from Airtable
+  // Function to load submissions from Vercel KV
   const loadSubmissions = async () => {
     setLoading(true);
     try {
-      console.log('Loading submissions from Airtable...');
-      const data = await airtableService.getAllSubmissions();
+      console.log('Loading submissions from Vercel KV...');
+      const data = await vercelStorageService.getAllSubmissions();
       console.log('Retrieved submissions:', data);
       // Sort by timestamp (newest first)
       const sortedData = [...data].sort((a, b) => b.timestamp - a.timestamp);
@@ -42,7 +42,7 @@ export function Dashboard() {
   const handleDelete = async (id: string, event: React.MouseEvent) => {
     event.stopPropagation();
     try {
-      await airtableService.deleteSubmission(id);
+      await vercelStorageService.deleteSubmission(id);
       loadSubmissions();
       if (selectedSubmission?.id === id) {
         setSelectedSubmission(null);
@@ -55,7 +55,7 @@ export function Dashboard() {
   const handleClearAll = async () => {
     if (window.confirm('Are you sure you want to delete ALL submissions? This cannot be undone.')) {
       try {
-        await airtableService.clearAllSubmissions();
+        await vercelStorageService.clearAllSubmissions();
         setSubmissions([]);
         setSelectedSubmission(null);
       } catch (error) {
