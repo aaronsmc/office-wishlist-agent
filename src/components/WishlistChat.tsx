@@ -98,6 +98,14 @@ const employees = [{
 }];
 // The wishlist questions to ask with variations
 const wishlistQuestions = [
+  // Dream snacks questions (FIRST!)
+  [
+    "What are your dream snacks for the office? 🍿",
+    "What snacks would make the office kitchen absolutely amazing?",
+    "What dream snacks would you love to have available?",
+    "What treats would make the office the best place to work?",
+    "What snacks would make you never want to leave the office?"
+  ],
   // Must-have questions
   [
     "What are your 'must-have' items for the new office?",
@@ -121,14 +129,6 @@ const wishlistQuestions = [
     "What wild, over-the-top office features would make you laugh but secretly love?",
     "What crazy office ideas do you have? No idea is too outlandish! 🤪",
     "What would make the office absolutely legendary? Think outside the box! 💡"
-  ],
-  // Dream snacks questions
-  [
-    "What are your dream snacks for the office? 🍿",
-    "What snacks would make the office kitchen absolutely amazing?",
-    "What dream snacks would you love to have available?",
-    "What treats would make the office the best place to work?",
-    "What snacks would make you never want to leave the office?"
   ],
 ];
 // Fun reactions to user responses
@@ -398,24 +398,24 @@ export function WishlistChat() {
     // Map the current step to the corresponding form field
     switch (currentStep) {
       case 1:
+        // Dream snacks (now first!)
+        newFormData.dreamSnacks = response;
+        console.log('Saved to dreamSnacks:', response);
+        break;
+      case 2:
         // Must-have items
         newFormData.mustHaveItems = response;
         console.log('Saved to mustHaveItems:', response);
         break;
-      case 2:
+      case 3:
         // Nice-to-have items
         newFormData.niceToHaveItems = response;
         console.log('Saved to niceToHaveItems:', response);
         break;
-      case 3:
+      case 4:
         // Preposterous wishes
         newFormData.preposterousWishes = response;
         console.log('Saved to preposterousWishes:', response);
-        break;
-      case 4:
-        // Dream snacks
-        newFormData.dreamSnacks = response;
-        console.log('Saved to dreamSnacks:', response);
         break;
     }
     setFormData(newFormData);
@@ -424,16 +424,16 @@ export function WishlistChat() {
     let fieldName: keyof typeof newFormData;
     switch (currentStep) {
       case 1:
-        fieldName = 'mustHaveItems';
+        fieldName = 'dreamSnacks';
         break;
       case 2:
-        fieldName = 'niceToHaveItems';
+        fieldName = 'mustHaveItems';
         break;
       case 3:
-        fieldName = 'preposterousWishes';
+        fieldName = 'niceToHaveItems';
         break;
       case 4:
-        fieldName = 'dreamSnacks';
+        fieldName = 'preposterousWishes';
         break;
       default:
         fieldName = 'additionalComments';
