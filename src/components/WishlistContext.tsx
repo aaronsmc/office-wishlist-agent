@@ -1,0 +1,102 @@
+import React, { useState, createContext, useContext } from 'react';
+import { supabaseWishlistService } from '../services/SupabaseWishlistService';
+// Define the wishlist state type
+type WishlistState = {
+  currentQuestion: number;
+  userName: string;
+  mustHaveItems: string;
+  niceToHaveItems: string;
+  preposterousWishes: string;
+  snackPreferences: string[];
+  additionalComments: string;
+};
+// Define the context type
+type WishlistContextType = {
+  wishlistState: WishlistState;
+  updateAnswer: (field: keyof WishlistState, value: string | string[]) => void;
+  nextQuestion: () => void;
+  submitForm: () => Promise<boolean>;
+};
+// Create context with default values
+const WishlistContext = createContext<WishlistContextType>({
+  wishlistState: {
+    currentQuestion: 0,
+    userName: '',
+    mustHaveItems: '',
+    niceToHaveItems: '',
+    preposterousWishes: '',
+    snackPreferences: [],
+    additionalComments: ''
+  },
+  updateAnswer: () => {},
+  nextQuestion: () => {},
+  submitForm: async () => false
+});
+// Context provider component
+export const WishlistProvider: React.FC<{
+  children: React.ReactNode;
+}> = ({
+  children
+}) => {
+  const [wishlistState, setWishlistState] = useState<WishlistState>({
+    currentQuestion: 0,
+    userName: '',
+    mustHaveItems: '',
+    niceToHaveItems: '',
+    preposterousWishes: '',
+    snackPreferences: [],
+    additionalComments: ''
+  });
+  // Update a specific field in the state
+  const updateAnswer = (field: keyof WishlistState, value: string | string[]) => {
+    setWishlistState(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+  // Move to the next question
+  const nextQuestion = () => {
+    setWishlistState(prev => ({
+      ...prev,
+      currentQuestion: prev.currentQuestion + 1
+    }));
+  };
+  // Submit the form and save to Supabase
+  const submitForm = async (): Promise<boolean> => {
+    try {
+      // Create submission object for Supabase
+      const submission = {
+        user_name: wishlistState.userName,
+        must_have_items: wishlistState.mustHaveItems,
+        nice_to_have_items: wishlistState.niceToHaveItems,
+        preposterous_wishes: wishlistState.preposterousWishes,
+        snack_preferences: wishlistState.snackPreferences,
+        additional_comments: wishlistState.additionalComments
+      };
+      
+      // Save to Supabase
+      const result = await supabaseWishlistService.saveSubmission(submission);
+      
+      if (result) {
+        console.log('Form submitted successfully to Supabase:', result);
+        return true;
+      } else {
+        console.error('Failed to submit form to Supabase');
+        return false;
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      return false;
+    }
+  };
+  return <WishlistContext.Provider value={{
+    wishlistState,
+    updateAnswer,
+    nextQuestion,
+    submitForm
+  }}>
+      {children}
+    </WishlistContext.Provider>;
+};
+// Custom hook to use the wishlist context
+export const useWishlist = () => useContext(WishlistContext);
