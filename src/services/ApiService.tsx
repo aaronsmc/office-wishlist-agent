@@ -7,6 +7,7 @@ export class ApiService {
   constructor() {
     // Use environment variable or default to Vercel API routes
     this.baseUrl = import.meta.env.VITE_API_URL || '/api';
+    console.log('API Service initialized with baseUrl:', this.baseUrl);
   }
 
   // Get all submissions from the server
@@ -43,6 +44,7 @@ export class ApiService {
     additionalComments: string;
   }): Promise<boolean> {
     try {
+      console.log('Attempting to save submission to API:', `${this.baseUrl}/submissions`);
       const response = await fetch(`${this.baseUrl}/submissions`, {
         method: 'POST',
         headers: {
@@ -51,11 +53,14 @@ export class ApiService {
         body: JSON.stringify(submission),
       });
 
+      console.log('API Response status:', response.status);
+      
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const result = await response.json();
+      console.log('API Response result:', result);
       return result.success || false;
     } catch (error) {
       console.error('Error saving submission to API, falling back to localStorage:', error);
