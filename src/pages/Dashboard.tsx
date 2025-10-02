@@ -166,11 +166,9 @@ export function Dashboard() {
                       <h4 className="text-sm font-medium text-green-800">
                         Snack Preferences
                       </h4>
-                      {selectedSubmission.snack_preferences.length > 0 ? <div className="mt-2 flex flex-wrap gap-1">
-                          {selectedSubmission.snack_preferences.map((snack, index) => <span key={index} className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
-                                {snack}
-                              </span>)}
-                        </div> : <p className="mt-1 text-green-900">None specified</p>}
+                      <p className="mt-1 whitespace-pre-line text-green-900">
+                        {selectedSubmission.snack_preferences || 'None specified'}
+                      </p>
                     </div>
                     {selectedSubmission.additional_comments && <div className="bg-gray-50 p-3 rounded-md border border-gray-200">
                         <h4 className="text-sm font-medium text-gray-700">

@@ -304,7 +304,7 @@ export function WishlistChat() {
     mustHaveItems: '',
     niceToHaveItems: '',
     preposterousWishes: '',
-    snackPreferences: [] as string[],
+    snackPreferences: '',
     additionalComments: ''
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -410,8 +410,7 @@ export function WishlistChat() {
         break;
       case 4:
         // Snack preferences
-        // Split by commas and clean up
-        newFormData.snackPreferences = response.split(',').map(item => item.trim()).filter(item => item.length > 0);
+        newFormData.snackPreferences = response;
         break;
     }
     setFormData(newFormData);

@@ -7,7 +7,7 @@ type WishlistState = {
   mustHaveItems: string;
   niceToHaveItems: string;
   preposterousWishes: string;
-  snackPreferences: string[];
+  snackPreferences: string;
   additionalComments: string;
 };
 // Define the context type
@@ -25,7 +25,7 @@ const WishlistContext = createContext<WishlistContextType>({
     mustHaveItems: '',
     niceToHaveItems: '',
     preposterousWishes: '',
-    snackPreferences: [],
+    snackPreferences: '',
     additionalComments: ''
   },
   updateAnswer: () => {},
@@ -44,7 +44,7 @@ export const WishlistProvider: React.FC<{
     mustHaveItems: '',
     niceToHaveItems: '',
     preposterousWishes: '',
-    snackPreferences: [],
+    snackPreferences: '',
     additionalComments: ''
   });
   // Update a specific field in the state

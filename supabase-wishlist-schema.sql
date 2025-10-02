@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS wishlist_submissions (
   must_have_items TEXT NOT NULL,
   nice_to_have_items TEXT NOT NULL,
   preposterous_wishes TEXT NOT NULL,
-  snack_preferences TEXT[] NOT NULL DEFAULT '{}',
+  snack_preferences TEXT NOT NULL DEFAULT '',
   additional_comments TEXT NOT NULL DEFAULT ''
 );
 
