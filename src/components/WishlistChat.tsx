@@ -585,11 +585,13 @@ export function WishlistChat() {
       const reaction = getReactionToAnswer(userInput, currentStep);
       addBotMessage(reaction);
       // Move to the next step
-      setCurrentStep(prev => prev + 1);
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+      
       // If we have more questions, ask the next one
-      if (currentStep < 4) {
+      if (nextStep <= 4) {
         // Use the NEXT question index based on the updated step
-        const nextQuestionIndex = currentStep; // This is now the next question index after incrementing
+        const nextQuestionIndex = nextStep - 1; // Convert step to question index
         if (nextQuestionIndex < wishlistQuestions.length) {
           setTimeout(() => {
             const questionVariations = wishlistQuestions[nextQuestionIndex];
