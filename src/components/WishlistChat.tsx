@@ -415,7 +415,27 @@ export function WishlistChat() {
         break;
     }
     setFormData(newFormData);
-    updateAnswer(Object.keys(newFormData)[currentStep] as any, newFormData[Object.keys(newFormData)[currentStep] as keyof typeof newFormData]);
+    
+    // Map current step to the correct field name
+    let fieldName: keyof typeof newFormData;
+    switch (currentStep) {
+      case 1:
+        fieldName = 'mustHaveItems';
+        break;
+      case 2:
+        fieldName = 'niceToHaveItems';
+        break;
+      case 3:
+        fieldName = 'preposterousWishes';
+        break;
+      case 4:
+        fieldName = 'snackPreferences';
+        break;
+      default:
+        fieldName = 'additionalComments';
+    }
+    
+    updateAnswer(fieldName, newFormData[fieldName]);
   };
   // Submit the form to storage
   const saveToStorage = async () => {
