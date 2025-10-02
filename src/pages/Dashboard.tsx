@@ -140,7 +140,7 @@ export function Dashboard() {
                   <div className="space-y-4">
                     <div className="bg-yellow-50 p-3 rounded-md border border-yellow-200">
                       <h4 className="text-sm font-medium text-yellow-800">
-                        Must-Have Items
+                        Must-Have Items (Snacks Included)
                       </h4>
                       <p className="mt-1 whitespace-pre-line text-yellow-900">
                         {selectedSubmission.must_have_items || 'None specified'}
@@ -164,10 +164,10 @@ export function Dashboard() {
                     </div>
                     <div className="bg-green-50 p-3 rounded-md border border-green-200">
                       <h4 className="text-sm font-medium text-green-800">
-                        Dream Snacks
+                        Excited About New Office
                       </h4>
                       <p className="mt-1 whitespace-pre-line text-green-900">
-                        {selectedSubmission.dream_snacks || 'None specified'}
+                        YES
                       </p>
                     </div>
                     {selectedSubmission.additional_comments && <div className="bg-gray-50 p-3 rounded-md border border-gray-200">
