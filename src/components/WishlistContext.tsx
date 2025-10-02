@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext } from 'react';
-import { apiService } from '../services/ApiService';
+import { airtableService } from '../services/AirtableService';
 // Define the wishlist state type
 type WishlistState = {
   currentQuestion: number;
@@ -74,12 +74,12 @@ export const WishlistProvider: React.FC<{
         additionalComments: wishlistState.additionalComments
       };
       
-      // Save to server via API
-      const success = await apiService.saveSubmission(submission);
+      // Save to Airtable
+      const success = await airtableService.saveSubmission(submission);
       if (success) {
-        console.log('Form submitted successfully to server:', submission);
+        console.log('Form submitted successfully to Airtable:', submission);
       } else {
-        console.error('Failed to submit form to server');
+        console.error('Failed to submit form to Airtable');
       }
       return success;
     } catch (error) {
