@@ -28,8 +28,7 @@ const employees = [{
   name: 'Julien',
   role: 'Growth Expert',
   profilePic: "/julien.jpg",
-  notes: 'Amazing at building relationships with prospects',
-  onNaughtyList: true // Julien is on the naughty list!
+  notes: 'Amazing at building relationships with prospects'
 }, {
   name: 'Malini',
   role: 'Growth Expert',
@@ -325,7 +324,6 @@ export function WishlistChat() {
     role: string;
     profilePic: string;
     isKnown: boolean;
-    onNaughtyList?: boolean;
   } | null>(null);
   // Scroll to bottom of chat
   const scrollToBottom = () => {
@@ -471,21 +469,6 @@ export function WishlistChat() {
     }]);
     const userInput = input;
     setInput('');
-    // If the user is already identified as Julien (on the naughty list)
-    if (currentUser?.onNaughtyList) {
-      // Creative responses for Julien
-      const julienResponses = [
-        "Nice try, Julien! But you're still on the naughty list. Maybe try being extra nice next time? 😏",
-        "Julien, Julien, Julien... you know the rules! Naughty list members don't get to add to the wishlist. Try again next year! 🎅",
-        "Oh Julien, you're persistent! But rules are rules - naughty list means no wishlist privileges. Better luck next time! 😄",
-        "Julien, my friend, you're charming but still on the naughty list. Maybe bring some cookies to the office? 🍪",
-        "Julien, I appreciate the effort, but you're still on the naughty list! Try being extra helpful around the office! 😉",
-        "Julien, you're funny, but naughty list = no wishlist access. Maybe volunteer for the next office cleanup? 🧹"
-      ];
-      const randomResponse = julienResponses[Math.floor(Math.random() * julienResponses.length)];
-      addBotMessage(randomResponse);
-      return;
-    }
     // If we're at the name step
     if (currentStep === 0) {
       // Check if the input matches any employee name (case insensitive)
@@ -495,13 +478,11 @@ export function WishlistChat() {
       );
       if (matchedEmployee) {
         // Found a known employee
-        const isOnNaughtyList = matchedEmployee.name.toLowerCase() === 'julien';
         setCurrentUser({
           name: matchedEmployee.name,
           role: matchedEmployee.role,
           profilePic: matchedEmployee.profilePic,
-          isKnown: true,
-          onNaughtyList: isOnNaughtyList
+          isKnown: true
         });
         // Update form data with the user name
         setFormData(prev => ({
@@ -509,23 +490,6 @@ export function WishlistChat() {
           userName: matchedEmployee.name
         }));
         updateAnswer('userName', matchedEmployee.name);
-        // Special handling for Julien (naughty list)
-        if (isOnNaughtyList) {
-          setMessages(prev => [...prev, {
-            id: uuidv4(),
-            type: 'bot',
-            text: `😱 OH NO! It's ${matchedEmployee.name}! I just checked my list twice and you're the ONLY ONE on the naughty list this year! I'm sorry, but you can't add anything to the office wishlist. Try being nicer to your colleagues next year! 🙅‍♂️`
-          }]);
-          // Add a follow-up message after a delay
-          setTimeout(() => {
-            setMessages(prev => [...prev, {
-              id: uuidv4(),
-              type: 'bot',
-              text: "But go ahead, try to tell me what you want..."
-            }]);
-          }, 2000);
-          return;
-        }
         // Personalized response for nice list people
         let personalizedGreeting = '';
         if (matchedEmployee.role.includes('Engineer')) {
@@ -566,8 +530,8 @@ export function WishlistChat() {
           text: `Nice to meet you, ${userInput}! 👋 I don't think we've met before, but I've checked my list and you're not on the naughty list! I'm excited to hear your office wishlist ideas! Let's get started with a few questions.`
         }]);
       }
-      // Move to next step (only if not Julien)
-      if (!(matchedEmployee && matchedEmployee.name.toLowerCase() === 'julien')) {
+      // Move to next step
+      if (matchedEmployee) {
         setCurrentStep(1);
         // Add the first question immediately after a short delay
         setIsTyping(true);
@@ -644,11 +608,11 @@ export function WishlistChat() {
             <h1 className="text-lg font-semibold">Office Wishlist</h1>
           </div>
           <div className="flex items-center space-x-3">
-            {currentUser && currentUser.isKnown && <div className={`flex items-center ${currentUser.onNaughtyList ? 'bg-gradient-to-r from-red-500/30 to-red-600/20' : 'bg-gradient-to-r from-white/20 to-white/10'} rounded-full px-3 py-1 shadow-md border border-white/20`}>
+            {currentUser && currentUser.isKnown && <div className="flex items-center bg-gradient-to-r from-white/20 to-white/10 rounded-full px-3 py-1 shadow-md border border-white/20">
                 <span className="mr-2 text-xs font-medium">
-                  {currentUser.name} {currentUser.onNaughtyList ? '😈' : '😇'}
+                  {currentUser.name} 😇
                 </span>
-                {currentUser.profilePic && <img src={currentUser.profilePic} alt={currentUser.name} className={`w-6 h-6 rounded-full object-cover border-2 ${currentUser.onNaughtyList ? 'border-red-300/50' : 'border-white/30'} shadow-sm`} />}
+                {currentUser.profilePic && <img src={currentUser.profilePic} alt={currentUser.name} className="w-6 h-6 rounded-full object-cover border-2 border-white/30 shadow-sm" />}
               </div>}
             <Link to="/dashboard" className="bg-white/20 hover:bg-white/30 text-white py-2 px-4 rounded-lg transition-all duration-300 flex items-center shadow-md hover:shadow-lg border border-white/20 backdrop-blur-sm">
               <ClipboardListIcon size={16} className="mr-2" />
