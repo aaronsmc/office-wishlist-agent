@@ -139,10 +139,22 @@ const wishlistQuestions = [
 const getReactionToMustHaves = (response: string) => {
   const lowerResponse = response.toLowerCase();
   if (lowerResponse.includes('coffee') || lowerResponse.includes('espresso') || lowerResponse.includes('caffeine')) {
-    return "A coffee enthusiast! I'll make sure we don't cheap out on the coffee machine. ☕ Productivity depends on it!";
+    const coffeeReactions = [
+      "A coffee enthusiast! I'll make sure we don't cheap out on the coffee machine. ☕ Productivity depends on it!",
+      "Coffee! The lifeblood of any productive office. I'll ensure we get the good stuff, not that instant powder! ☕",
+      "Caffeine connoisseur! Nothing says 'I'm ready to tackle the day' like a perfectly brewed cup! ☕",
+      "Coffee lover! I'll make sure we have premium beans, not that office sludge that tastes like regret! ☕"
+    ];
+    return coffeeReactions[Math.floor(Math.random() * coffeeReactions.length)];
   }
   if (lowerResponse.includes('monitor') || lowerResponse.includes('screen') || lowerResponse.includes('display')) {
-    return 'Ah, a multi-monitor setup person! More screen real estate equals more productivity... or just more browser tabs open? 🖥️';
+    const monitorReactions = [
+      'Ah, a multi-monitor setup person! More screen real estate equals more productivity... or just more browser tabs open? 🖥️',
+      'Multiple monitors! Because one screen is for work, the other is for... "research"! 🖥️',
+      'Screen real estate enthusiast! Nothing says "I mean business" like having 47 tabs open across 3 monitors! 🖥️',
+      'Monitor setup! The more screens, the more productive you look, even if you\'re just watching cat videos! 🖥️'
+    ];
+    return monitorReactions[Math.floor(Math.random() * monitorReactions.length)];
   }
   if (lowerResponse.includes('chair') || lowerResponse.includes('ergonomic') || lowerResponse.includes('comfortable')) {
     return 'Your back thanks you for prioritizing ergonomics! No one wants to sound like Rice Krispies when they stand up. Snap, crackle, pop! 🪑';
@@ -173,7 +185,13 @@ const getReactionToMustHaves = (response: string) => {
 const getReactionToNiceToHaves = (response: string) => {
   const lowerResponse = response.toLowerCase();
   if (lowerResponse.includes('game') || lowerResponse.includes('ping pong') || lowerResponse.includes('foosball') || lowerResponse.includes('pool')) {
-    return 'Games in the office! Perfect for team bonding and for asserting dominance over the marketing department. 🏓';
+    const gameReactions = [
+      'Games in the office! Perfect for team bonding and for asserting dominance over the marketing department. 🏓',
+      'Office games! Nothing says "we work hard and play hard" like a ping pong tournament during lunch! 🏓',
+      'Game room! The perfect place to settle disputes and prove who\'s really the office champion! 🏓',
+      'Recreational activities! Because sometimes you need to decompress with a friendly game of foosball! 🏓'
+    ];
+    return gameReactions[Math.floor(Math.random() * gameReactions.length)];
   }
   if (lowerResponse.includes('nap') || lowerResponse.includes('rest') || lowerResponse.includes('sleep')) {
     return "Nap pods? I see you're a person of culture. 'It's not sleeping, it's compiling!' 😴";
@@ -284,6 +302,43 @@ const getReactionToExcitement = (response: string) => {
   }
   return "Great to hear your thoughts! The new office is going to be fantastic! 🚀";
 };
+
+// Handle off-topic conversations
+const handleOffTopicResponse = (response: string, currentStep: number) => {
+  const lowerResponse = response.toLowerCase();
+  
+  // Common off-topic responses
+  const offTopicResponses = [
+    "That's interesting! But let's get back to the office wishlist - I'm really curious about your thoughts on the new space! 😊",
+    "I love chatting about that, but I'm on a mission to collect everyone's office wishes! Can you tell me about your office preferences? 🏢",
+    "Fascinating topic! Though I'm here specifically to hear about your office wishlist ideas. What would make your workday better? 💭",
+    "That sounds great! But I'm focused on gathering office wishlist items right now. What are your thoughts on the new office? 🤔",
+    "Interesting point! I'm actually here to collect your office wishlist. What would you love to have in the new space? ✨"
+  ];
+  
+  // Check for common off-topic patterns
+  const isOffTopic = 
+    lowerResponse.includes('how are you') ||
+    lowerResponse.includes('what\'s up') ||
+    lowerResponse.includes('how\'s it going') ||
+    lowerResponse.includes('tell me about') ||
+    lowerResponse.includes('what do you think about') ||
+    lowerResponse.includes('i want to talk about') ||
+    lowerResponse.includes('can we discuss') ||
+    lowerResponse.includes('i have a question') ||
+    lowerResponse.includes('do you know') ||
+    lowerResponse.includes('what\'s your opinion') ||
+    lowerResponse.includes('i\'m bored') ||
+    lowerResponse.includes('this is boring') ||
+    lowerResponse.includes('can we change the subject') ||
+    (lowerResponse.length > 100 && !lowerResponse.includes('office') && !lowerResponse.includes('work') && !lowerResponse.includes('desk') && !lowerResponse.includes('chair'));
+  
+  if (isOffTopic) {
+    return offTopicResponses[Math.floor(Math.random() * offTopicResponses.length)];
+  }
+  
+  return null; // Not off-topic, continue with normal flow
+};
 const getReactionToAdditionalComments = (response: string) => {
   const lowerResponse = response.toLowerCase();
   if (lowerResponse.includes('thank') || lowerResponse.includes('thanks')) {
@@ -339,11 +394,11 @@ export function WishlistChat() {
   // Initialize chat
   useEffect(() => {
     const introMessages = [
-      "Hey there! 👋 I'm Mavi, your friendly office wishlist collector. What's your name so I can check if you're on the nice or naughty list? Only those on the nice list get to add something to the office wishlist! 😉",
-      "Hello! 🎉 I'm Mavi, the office wishlist fairy! Tell me your name and I'll check if you're on the nice list. Nice list members get to add their dream office items! ✨",
-      "Hi there! 👋 I'm Mavi, your office wishlist genie! What's your name? I need to verify you're on the nice list before we can add your wishes to the office dream list! 🧞‍♀️",
-      "Greetings! 🎊 I'm Mavi, the keeper of the office wishlist! Share your name so I can confirm you're on the nice list. Only nice list members can contribute to our office wishlist! 📝",
-      "Hey! 👋 I'm Mavi, your office wishlist curator! What's your name? I'll check if you're on the nice list - only nice people get to add items to our office wishlist! 😊"
+      "Hey there! 👋 I'm Mavi, your friendly office wishlist collector. Can you tell me your FIRST name so I can check if you're on the nice or naughty list? Only those on the nice list get to add something to the office wishlist! 😉",
+      "Hello! 🎉 I'm Mavi, the office wishlist fairy! Can you tell me your FIRST name and I'll check if you're on the nice list. Nice list members get to add their dream office items! ✨",
+      "Hi there! 👋 I'm Mavi, your office wishlist genie! Can you tell me your FIRST name? I need to verify you're on the nice list before we can add your wishes to the office dream list! 🧞‍♀️",
+      "Greetings! 🎊 I'm Mavi, the keeper of the office wishlist! Can you tell me your FIRST name so I can confirm you're on the nice list. Only nice list members can contribute to our office wishlist! 📝",
+      "Hey! 👋 I'm Mavi, your office wishlist curator! Can you tell me your FIRST name? I'll check if you're on the nice list - only nice people get to add items to our office wishlist! 😊"
     ];
     const randomIntro = introMessages[Math.floor(Math.random() * introMessages.length)];
     setMessages([{
@@ -559,6 +614,13 @@ export function WishlistChat() {
     }
     // If we're in the wishlist questions (steps 1-4)
     if (currentStep >= 1 && currentStep <= 4) {
+      // Check for off-topic responses first
+      const offTopicResponse = handleOffTopicResponse(userInput, currentStep);
+      if (offTopicResponse) {
+        addBotMessage(offTopicResponse);
+        return; // Don't save the response or move to next step
+      }
+      
       // Save the response
       await saveResponse(userInput);
       // Add a reactionary response to the user's answer
