@@ -94,6 +94,11 @@ const employees = [{
   role: 'Growth',
   profilePic: "/ian.jpg",
   notes: 'Analytics expert'
+}, {
+  name: 'Alexandria',
+  role: 'BDR',
+  profilePic: "/alexandria.jpg",
+  notes: 'Newest BDR hire, building relationships with prospects'
 }];
 // The wishlist questions to ask with variations
 const wishlistQuestions = [
@@ -474,7 +479,8 @@ export function WishlistChat() {
       // Check if the input matches any employee name (case insensitive)
       const matchedEmployee = employees.find(emp => 
         emp.name.toLowerCase() === userInput.toLowerCase() || 
-        (emp.name === 'Siddarth' && userInput.toLowerCase() === 'sid')
+        (emp.name === 'Siddarth' && userInput.toLowerCase() === 'sid') ||
+        (emp.name === 'Alexandria' && (userInput.toLowerCase() === 'alex' || userInput.toLowerCase() === 'alexandria'))
       );
       if (matchedEmployee) {
         // Found a known employee
@@ -496,6 +502,8 @@ export function WishlistChat() {
           personalizedGreeting = `Ah, ${matchedEmployee.name}! Our awesome ${matchedEmployee.role}! 🖥️ Good news - you're on the nice list! Ready to talk office upgrades that don't involve debugging?`;
         } else if (matchedEmployee.role.includes('Manager')) {
           personalizedGreeting = `${matchedEmployee.name}! Our amazing ${matchedEmployee.role}! 📊 You made the nice list this year! Let's plan an office that makes your team actually want to come in on Mondays!`;
+        } else if (matchedEmployee.role.includes('BDR')) {
+          personalizedGreeting = `${matchedEmployee.name}! Our newest ${matchedEmployee.role}! 🎯 Welcome to the team! You're on the nice list! Let's create an office space that helps you build amazing relationships with prospects!`;
         } else if (matchedEmployee.role.includes('Growth') || matchedEmployee.role.includes('Sales') || matchedEmployee.role.includes('Executive')) {
           personalizedGreeting = `${matchedEmployee.name}! Our rockstar ${matchedEmployee.role}! 🚀 You're definitely on the nice list! Let's design an office worthy of all those deals you close!`;
         } else if (matchedEmployee.role.includes('CTO') || matchedEmployee.role.includes('CEO')) {
