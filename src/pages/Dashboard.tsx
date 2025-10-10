@@ -60,6 +60,30 @@ export function Dashboard() {
     const index = Math.abs(hash) % colors.length;
     return colors[index];
   };
+
+  // Get profile picture path for a user
+  const getProfilePicture = (userName: string) => {
+    const profilePics: { [key: string]: string } = {
+      'Aaron': '/aaron.jpg',
+      'Amy': '/amy.jpg',
+      'Julien': '/julien.jpg',
+      'Malini': '/malini.jpg',
+      'Joki': '/joki.jpg',
+      'Arun': '/arun.jpg',
+      'Siddarth': '/siddarth.jpg',
+      'Maria': '/maria.jpg',
+      'Joshua': '/joshua.jpg',
+      'Stephen': '/stephen.jpg',
+      'Sergey': '/sergey.jpg',
+      'Ivan': '/ivan.jpg',
+      'Jack': '/jack.jpg',
+      'Anand': '/anand.jpg',
+      'Kunal': '/kunal.jpg',
+      'Ian': '/ian.jpg',
+      'Alexandria': '/alexandria.jpg'
+    };
+    return profilePics[userName] || null;
+  };
   return <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       {/* Header */}
       <header className="bg-gradient-to-r from-purple-600 to-blue-600 shadow-md">
@@ -110,13 +134,17 @@ export function Dashboard() {
               <div className="space-y-2 max-h-[70vh] overflow-y-auto pr-1">
                 {submissions.map(submission => {
               const colorClass = getSubmissionColor(submission.user_name);
+              const profilePic = getProfilePicture(submission.user_name);
               return <div key={submission.id} onClick={() => setSelectedSubmission(submission)} className={`p-3 rounded-lg cursor-pointer border transition-all ${selectedSubmission?.id === submission.id ? `${colorClass} shadow-md` : 'bg-white border-gray-200 hover:border-purple-300'}`}>
                       <div className="flex justify-between items-center">
-                        <div>
-                          <h4 className="font-medium">{submission.user_name}</h4>
-                          <p className="text-xs text-gray-500">
-                            {formatDate(submission.created_at)}
-                          </p>
+                        <div className="flex items-center">
+                          {profilePic && <img src={profilePic} alt={submission.user_name} className="w-8 h-8 rounded-full object-cover border-2 border-gray-200 mr-3 shadow-sm" />}
+                          <div>
+                            <h4 className="font-medium">{submission.user_name}</h4>
+                            <p className="text-xs text-gray-500">
+                              {formatDate(submission.created_at)}
+                            </p>
+                          </div>
                         </div>
                         <button onClick={e => handleDelete(submission.id, e)} className="text-gray-400 hover:text-red-500 transition-colors" aria-label="Delete submission">
                           <XCircleIcon size={18} />
