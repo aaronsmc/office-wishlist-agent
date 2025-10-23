@@ -10,6 +10,7 @@ import maliniImg from '/public/malini.jpg';
 import mariaImg from '/public/maria.jpg';
 import stephenImg from '/public/stephen.jpg';
 import saiImg from '/public/sai.jpg';
+import kaylaImg from '/public/kayla.jpg';
 
 // Export image URLs
 export const profileImages = {
@@ -24,6 +25,7 @@ export const profileImages = {
   maria: mariaImg,
   stephen: stephenImg,
   sai: saiImg,
+  kayla: kaylaImg,
   // Placeholder for missing images
   arun: '/placeholder-avatar.png',
   siddarth: '/placeholder-avatar.png',

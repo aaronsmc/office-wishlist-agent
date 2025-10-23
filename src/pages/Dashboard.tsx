@@ -81,7 +81,8 @@ export function Dashboard() {
       'Kunal': '/kunal.jpg',
       'Ian': '/ian.jpg',
       'Alexandria': '/alexandria.jpg',
-      'Sai': '/sai.jpg'
+      'Sai': '/sai.jpg',
+      'Kayla': '/kayla.jpg'
     };
     return profilePics[userName] || null;
   };
