@@ -101,14 +101,14 @@ const employees = [{
   notes: 'Newest BDR hire, building relationships with prospects'
 }, {
   name: 'Sai',
-  role: 'New Hire',
+  role: 'Technical Project Manager',
   profilePic: "/sai.jpg",
-  notes: 'Welcome to the team!'
+  notes: 'Technical project management expert'
 }, {
   name: 'Kayla',
-  role: 'New Hire',
+  role: 'Talent Lead',
   profilePic: "/kayla.jpg",
-  notes: 'Welcome to the team!'
+  notes: 'Building and nurturing our amazing team'
 }];
 // The wishlist questions to ask with variations
 const wishlistQuestions = [
@@ -569,6 +569,10 @@ export function WishlistChat() {
           personalizedGreeting = `${matchedEmployee.name}! Our amazing ${matchedEmployee.role}! 📊 You made the nice list this year! Let's plan an office that makes your team actually want to come in on Mondays!`;
         } else if (matchedEmployee.role.includes('BDR')) {
           personalizedGreeting = `${matchedEmployee.name}! Our newest ${matchedEmployee.role}! 🎯 Welcome to the team! You're on the nice list! Let's create an office space that helps you build amazing relationships with prospects!`;
+        } else if (matchedEmployee.role.includes('Talent Lead')) {
+          personalizedGreeting = `${matchedEmployee.name}! Our amazing ${matchedEmployee.role}! 👥 You're on the nice list! Let's design an office that helps you attract and retain the best talent!`;
+        } else if (matchedEmployee.role.includes('Technical Project Manager')) {
+          personalizedGreeting = `${matchedEmployee.name}! Our brilliant ${matchedEmployee.role}! 📋 You're on the nice list! Let's create an office space that helps you keep all those technical projects running smoothly!`;
         } else if (matchedEmployee.role.includes('Growth') || matchedEmployee.role.includes('Sales') || matchedEmployee.role.includes('Executive')) {
           personalizedGreeting = `${matchedEmployee.name}! Our rockstar ${matchedEmployee.role}! 🚀 You're definitely on the nice list! Let's design an office worthy of all those deals you close!`;
         } else if (matchedEmployee.role.includes('CTO') || matchedEmployee.role.includes('CEO')) {
