@@ -80,7 +80,8 @@ export function Dashboard() {
       'Anand': '/anand.jpg',
       'Kunal': '/kunal.jpg',
       'Ian': '/ian.jpg',
-      'Alexandria': '/alexandria.jpg'
+      'Alexandria': '/alexandria.jpg',
+      'Sai': '/sai.jpg'
     };
     return profilePics[userName] || null;
   };

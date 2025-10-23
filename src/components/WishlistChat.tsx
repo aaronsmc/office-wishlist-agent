@@ -99,6 +99,11 @@ const employees = [{
   role: 'BDR',
   profilePic: "/alexandria.jpg",
   notes: 'Newest BDR hire, building relationships with prospects'
+}, {
+  name: 'Sai',
+  role: 'New Hire',
+  profilePic: "/sai.jpg",
+  notes: 'Welcome to the team!'
 }];
 // The wishlist questions to ask with variations
 const wishlistQuestions = [
