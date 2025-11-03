@@ -82,7 +82,9 @@ export function Dashboard() {
       'Ian': '/ian.jpg',
       'Alexandria': '/alexandria.jpg',
       'Sai': '/sai.jpg',
-      'Kayla': '/kayla.jpg'
+      'Kayla': '/kayla.jpg',
+      'Brad': '/brad.png',
+      'Mili': '/mili.jpg'
     };
     return profilePics[userName] || null;
   };
