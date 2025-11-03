@@ -109,6 +109,16 @@ const employees = [{
   role: 'Talent Lead',
   profilePic: "/kayla.jpg",
   notes: 'Building and nurturing our amazing team'
+}, {
+  name: 'Brad',
+  role: 'Staff Engineer',
+  profilePic: '',
+  notes: 'Engineering leader and mentor'
+}, {
+  name: 'Mili',
+  role: 'Content, Marketing and Events Lead',
+  profilePic: '',
+  notes: 'Drives brand, storytelling, and community'
 }];
 // The wishlist questions to ask with variations
 const wishlistQuestions = [
